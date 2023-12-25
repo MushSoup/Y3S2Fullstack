@@ -1,0 +1,17 @@
+<h2>Healthy Foods</h2>
+{{!--check if the list exist--}}
+{{#if listExists}}
+    <ul>
+        {{#each healthyFds}}   {{!--Iterating thought the list and retieve each item and assign to healthFd--}}    
+            <li class={{this.category}}>{{this.food}} </li>
+        {{/each}}
+    </ul>
+{{else}}   {{!--If the list does not exist--}} 
+    <ul>
+        <li>Dark Green Vegetables</li>
+        <li>Whole grains</li>
+        <li>Fish</li>
+        <li>Berries</li>
+        <li>Soy</li>
+    </ul>
+{{/if}}

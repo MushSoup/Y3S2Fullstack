@@ -1,0 +1,12 @@
+{{!-- Displays with {{error}} only if error is a valid object --}}
+{{#if error}}     
+    <div class="alert alert-danger"><i style="color:red;">{{error}}</i></div>
+{{/if}}
+
+{{!-- Loop through each {{text}} in errors array to display errors  
+*Note: errors is an array of objects with attribute text
+--}}
+{{#each errors}}
+    <div class="alert alert-danger"><i style="color:red;">{{text}}</i></div>
+{{else}}
+{{/each}}

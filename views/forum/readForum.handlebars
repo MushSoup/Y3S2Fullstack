@@ -1,0 +1,26 @@
+<div class="container" style="margin:auto; padding: 7%;">
+    {{#if forums}}
+        <div class="forum-table" style="border: 1px solid black;">
+            <div class="forum-header" style="background-color: black; color: white; padding: 10px;">
+                <h1 style="font-weight: bold;">Forums</h1>
+            </div>
+            <table class="forum-list" style="margin:auto; padding: 5%; background-color:white">
+                {{#each forums}}
+                    <a href="#">
+                        <tr style="background-color: white;">
+                            <td style="padding: 20px; padding-top: 30px;"><h2 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: bold;">{{this.fName}}</h2></td>
+                            <td style="width: 50%;"></td>
+                            <td style="text-align: right; padding: 10px; font-weight: bold;">{{this.fType}}</td>
+                            <td style="text-align: right; padding: 10px; font-weight: bold;">{{formatDate this.forumDate 'DD MMM YYYY'}}</td>
+                        </tr>
+                    </a>
+                    <tr>
+                        <td colspan="4"><hr></td>
+                    </tr>
+                {{/each}}
+            </table>
+        </div>
+    {{else}}
+        <h3>No Forums</h3>
+    {{/if}}
+</div>

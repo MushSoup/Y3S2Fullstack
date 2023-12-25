@@ -1,0 +1,119 @@
+
+<h3>Add Video Jot</h3>
+<form action="/video/addVideo" method="post" id="addVideo">
+    <table >
+        <tr>
+            <td>
+        
+                <label class="font-italic" for="title">Title</label>
+                <input type="text" class="form-control" name="title" required>
+
+            </td>
+            <td>
+                <label class="font-italic">Date of release</label>
+                <input id="datepicker" width="200" name="dateRelease" readonly/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label class="font-italic" for="story">Story</label>
+                <textarea class="form-control" id="story" name="story" rows="7"></textarea>
+            </td>
+        </tr>
+        <tr>        
+            <td>
+                <label class="font-italic">Language</label>
+                <br>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="language" id="chineseLang" value="Chinese">
+                    <label class="form-check-label" for="chinese">Chinese</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="language" id="englishLang" value="English"
+                            checked>
+                    <label class="form-check-label" for="englishLang">English</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="language" id="malayLang" value="Malay">
+                    <label class="form-check-label" for="malaylang">Malay</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="language" id="tamilLang" value="Tamil">
+                    <label class="form-check-label" for="tamilLang">Tamil</label>
+                </div>
+                <p class="font-weight-bold text-info" id="languageErr" style="display:none">Please select one
+                    language</p>
+            </td>
+        
+            <td>
+            
+                <label class="font-italic">Subtitles</label>
+                <br>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="subtitles" id="chinese" value="Chinese">
+                    <label class="form-check-label" for="chinese">Chinese</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="subtitles" id="english" value="English">
+                    <label class="form-check-label" for="englishLang">English</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="subtitles" id="malay" value="Malay">
+                    <label class="form-check-label" for="malay">Malay</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="subtitles" id="tamil" value="Tamil">
+                    <label class="form-check-label" for="tamil">Tamil</label>
+                </div>
+            </td>
+            <td>
+
+                <label class="font-italic">Classification</label>
+                <br>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="G" value="G" name="classification" checked>
+                    <label class="form-check-label" for="G">G</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="PG" value="PG" name="classification">
+                    <label class="form-check-label" for="PG">PG</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="PG13" value="PG13" name="classification">
+                    <label class="form-check-label" for="PG13">PG13</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="NC13" value="NC13" name="classification">
+                    <label class="form-check-label" for="NC13">NC13</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="M18" value="M18" name="classification">
+                    <label class="form-check-label" for="M18">M18</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="R21" value="R21" name="classification">
+                    <label class="form-check-label" for="R21">R21</label>
+                </div>
+            </td>
+        </tr> 
+        <tr>
+            <td>
+       
+                <br>
+                <button id="butAddVideo" type="submit" class="btn btn-primary">Save
+                </button>
+            </td>
+        </tr>
+    </table>
+</form>
+	
+
+
+<script>
+	$('#datepicker').datepicker({
+		value: new Date().toLocaleDateString(),
+		format: 'dd/mm/yyyy',
+		uiLibrary: 'bootstrap4',
+	});
+</script>
+

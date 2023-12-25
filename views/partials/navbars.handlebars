@@ -1,0 +1,80 @@
+{{!-- <!-- _navbars.handlebars -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">Health Application</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/addProducts">Add Product</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/viewProducts">View Products</a>
+            </li>
+            <!-- Add more navigation items as needed -->
+        </ul>
+    </div>
+</nav> --}}
+
+<style>
+    nav {
+        background-color: #f8f9fa;
+        padding: 10px 0;
+        display: flex;
+        justify-content: center; /* Center the items horizontally */
+        align-items: center;
+    }
+
+    .nav-link {
+        text-decoration: none;
+        color: #000;
+        font-weight: normal;
+        margin: 0 15px; /* Adjust spacing between items */
+        transition: font-weight 0.3s;
+    }
+
+    .nav-link:hover {
+        font-weight: bold;
+    }
+</style>
+
+<nav>
+    <a class="nav-link" href="/">Home</a>
+    <a class="nav-link" href="/register">Registration</a>
+    <a class="nav-link" href="/login">Login</a>
+    <a class="nav-link" href="/product/addProducts">Add Product</a>
+    <a class="nav-link" href="/product/viewProducts">View Products</a>
+    <a class="nav-link" href="/custDevInfo">Sell Your Device</a>
+    
+
+<div class="dropdown">
+        <a class="nav-link dropdown-toggle" href="/event/readEvent" id="eventsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Events
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="eventsDropdown">
+            <li><a class="dropdown-item" href="/event/showCreateEvent">Create Event</a></li>
+            <li><a class="dropdown-item" href="/event/readEvent">View Events</a></li>
+        </ul>
+    </div>
+    <div class="dropdown">
+        <a class="nav-link dropdown-toggle" href="/forum/readForum" role="button" id="forumsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Forums
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="forumsDropdown">
+            <li><a class="dropdown-item" href="/createForum">Create Forum</a></li>
+            <li><a class="dropdown-item" href="/forum/readForum">View Forum</a></li>
+        </ul>
+    </div>
+</nav>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    // Initialize Bootstrap components here
+    $(document).ready(function() {
+        // Initialize dropdowns
+        $('.dropdown-toggle').dropdown();
+    });
+</script>

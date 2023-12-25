@@ -1,0 +1,21 @@
+<h1 style="margin-bottom: 20px; padding-left: 5%; padding-top: 3%;">Create Forum</h1>
+<form action="/forum/createForum" method="post" id="addForum"  style="padding-left: 5%;">
+    <div style="margin-bottom: 10px;">
+        <label for="forumName" style="display: inline-block; width: 150px;">Forum Name:</label>
+        <input type="text" id="forumName" name="forumName" required>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <label style="display: inline-block; width: 150px;">Forum Type:</label>
+        <input type="radio" id="option1" name="forumType" value="public">
+        <label for="option1">Public</label>
+        <input type="radio" id="option2" name="forumType" value="restricted">
+        <label for="option2">Restricted</label>
+        <input type="radio" id="option3" name="forumType" value="private">
+        <label for="option3">Private</label>
+    </div>
+
+    <div style="margin-top: 10px;">
+        <button style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; cursor: pointer; border-radius: 5px;">Create Forum</button>
+    </div>
+</form>

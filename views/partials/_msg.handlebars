@@ -1,0 +1,9 @@
+{{!-- Displays with {{success_msg}} if variable success_msg is valid/exist --}}
+{{#if success_msg}}
+    <div class="alert alert-success"><i style="color:blue;">{{success_msg}}</i></div>
+{{/if}}
+
+{{!-- Displays with {{error_msg}} if variable error_msg is valid/exist --}}
+{{#if error_msg}}
+    <div class="alert alert-danger"><i style="color:red;">{{error_msg}}</i></div>
+{{/if}}
