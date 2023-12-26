@@ -56,6 +56,18 @@ router.get('/login', (req, res) => {
     });
 });
 
+router.get('/logout', function(req, res, next) {
+    console.log("loggin out:",res.locals.error_msg)
+   // console.log("loggin out:",res.locals.message.error)
+    //req.flash('error_msg', res.locals.error_msg);
+    req.logout(function(err) {
+      if (err) { return next(err); }
+      //req.flash('error_msg', res.locals.error_msg);
+      //res.locals.message = req.flash();
+      res.redirect('/');
+    });
+  });
+
 router.get('/createEvent', function(req, res) {
     res.render('event/createEvent', { layout: 'main' });
 });

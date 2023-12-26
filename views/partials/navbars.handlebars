@@ -41,31 +41,59 @@
 
 <nav>
     <a class="nav-link" href="/">Home</a>
+    {{#if user}}
+   <a class="nav-link" href="/logout">Log out</a>
+    {{else}}
     <a class="nav-link" href="/register">Registration</a>
     <a class="nav-link" href="/login">Login</a>
+    {{/if}}
     <a class="nav-link" href="/product/addProducts">Add Product</a>
     <a class="nav-link" href="/product/viewProducts">View Products</a>
     <a class="nav-link" href="/custDevInfo">Sell Your Device</a>
     
 
-<div class="dropdown">
-        <a class="nav-link dropdown-toggle" href="/event/readEvent" id="eventsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Events
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="eventsDropdown">
-            <li><a class="dropdown-item" href="/event/showCreateEvent">Create Event</a></li>
-            <li><a class="dropdown-item" href="/event/readEvent">View Events</a></li>
-        </ul>
-    </div>
-    <div class="dropdown">
-        <a class="nav-link dropdown-toggle" href="/forum/readForum" role="button" id="forumsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            Forums
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="forumsDropdown">
-            <li><a class="dropdown-item" href="/createForum">Create Forum</a></li>
-            <li><a class="dropdown-item" href="/forum/readForum">View Forum</a></li>
-        </ul>
-    </div>
+<div class="dropdown" onmouseover="showDropdown('eventsDropdown')">
+    <a class="nav-link" href="/event/readEvent" id="eventsDropdown" role="button" aria-expanded="false">
+        Events
+    </a>{{#if user}}
+    <ul class="dropdown-menu" aria-labelledby="eventsDropdown" onmouseleave="hideDropdown('eventsDropdown')">
+        
+        <li><a class="dropdown-item" href="/event/showCreateEvent">Create Event</a></li>
+        <li><a class="dropdown-item" href="/event/readEvent">View Events</a></li>
+       
+    </ul> {{/if}}
+</div>
+<div class="dropdown" onmouseover="showDropdown('forumsDropdown')">
+    <a class="nav-link" href="/forum/readForum" role="button" id="forumsDropdown" aria-expanded="false">
+        Forums
+    </a>
+    {{#if user}}
+        
+   
+    <ul class="dropdown-menu" aria-labelledby="forumsDropdown" onmouseleave="hideDropdown('forumsDropdown')">
+        <li><a class="dropdown-item" href="/createForum">Create Forum</a></li>
+        <li><a class="dropdown-item" href="/forum/readForum">View Forum</a></li>
+    </ul> {{/if}}
+</div>
+
+<script>
+    function showDropdown(id) {
+        var dropdown = document.getElementById(id);
+        if (dropdown) {
+            dropdown.setAttribute('aria-expanded', 'true');
+            dropdown.nextElementSibling.style.display = 'block';
+        }
+    }
+
+    function hideDropdown(id) {
+        var dropdown = document.getElementById(id);
+        if (dropdown) {
+            dropdown.setAttribute('aria-expanded', 'false');
+            dropdown.nextElementSibling.style.display = 'none';
+        }
+    }
+</script>
+
 </nav>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
