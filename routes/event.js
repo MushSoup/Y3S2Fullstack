@@ -12,12 +12,12 @@ router.use(cookieParser());
 router.get('/readEvent', (req,res) =>{
     Event.findAll({
         order:[
-            ['eName', 'ASC']
+            ['eventName', 'ASC']
         ],
         raw:true
-    }).then((events) => {
+    }).then((event) => {
         res.render('event/readEvent' ,{
-            events: events,
+            event: event,
         });
     })
     .catch(err => console.log(err));
@@ -27,28 +27,27 @@ router.get('/readEvent', (req,res) =>{
 router.get('/showCreateEvent',(req,res)=>{
     res.render('event/createEvent');//Activities view/video/addVideo.handlebars
 });
-router.get('/showReadEvent',(req,res)=>{
-    res.render('event/readEvent');//Activities view/video/addVideo.handlebars
-});
 
 // Adds new video jot from /video/addVideo
 router.post('/createEvent', (req, res) => {
-    let eName = req.body.eventName;
-    let eDesc = req.body.eventDescription;
-    let eLocation = req.body.eventLocation;    
-    let eDate =  moment(req.body.eventDate, 'DD/MM/YYYY');
+    let eventName = req.body.eventName;
+    let eventDesc = req.body.eventDescription;
+    let eventLocation = req.body.eventLocation;    
+    let eventDate =  moment(req.body.eventDate, 'DD/MM/YYYY');
+    let eventCreator = req.user.username;
     
 
 
     
     // Multi-value components return array of strings or undefined
     Event.create({
-            eName,
-            eDesc,
-            eLocation,
-            eDate
+            eventName,
+            eventDate,
+            eventDesc,
+            eventLocation,
+            eventCreator
             
-        }) .then((events) => {
+        }) .then((event) => {
             res.redirect('/event/readEvent'); 
         })
         .catch(err => console.log(err))

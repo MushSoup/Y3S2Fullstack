@@ -2,18 +2,28 @@ const Sequelize = require('sequelize');
 const db = require('../config/DBConfig');
 
 const Event = db.define('event', {
-    eName: {
+    eventID: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+      },
+    eventName: {
         type: Sequelize.STRING
     },
-    eDesc: {
+    eventDesc: {
         type: Sequelize.STRING
     },
-    eLocation: {
+    eventLocation: {
         type: Sequelize.STRING
     },
-    eDate: {
+    eventDate: {
         type: Sequelize.DATE
-    }
-});
+    },
+    eventCreator:{
+        type: Sequelize.STRING
+    }},
+    {
+        tableName: 'event' // Specify the custom table name
+    });
 
 module.exports = Event;

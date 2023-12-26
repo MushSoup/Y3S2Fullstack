@@ -1,3 +1,3 @@
-SELECT * FROM forums;
+
+SELECT * FROM event;
 SELECT * FROM users;
-SELECT * FROM events;

@@ -1,17 +1,18 @@
 <div class="container" style="padding-left:0%">
-    {{#if events}}
+    {{#if event}}
         <h3 style="padding-top: 3%; text-align: center;">Events</h3>
         <div class="row" style="">
-            {{#each events}}
+            {{#each event}}
             <div class="col-md-11 mb-4" style="margin:auto; padding: 10px; position: relative;">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">{{eName}}</h5>
-                        <p class="card-text">{{eDesc}}</p>
+                        <h5 class="card-title">{{eventName}}</h5>
+                        <p class="card-text">{{eventDesc}}</p>
                         <p class="card-text">
                             <small class="text-muted">
-                                <span class="float-left">Event Location: {{eLocation}}</span>
+                                <span class="float-left">Event Location: {{eventLocation}}</span>
                                 <span class="float-left" style="padding-left: 30%;"> Event Date: {{formatDate eventDate 'DD MMM YYYY'}}</span>
+                                <span class="float-right" style="padding-right: 15%;">Event Creator: {{eventCreator}}</span>
                             </small>
                         </p>
                         <a href="#" class="btn btn-dark" style="position: absolute; bottom: 10px; right: 10px;">Register</a>
