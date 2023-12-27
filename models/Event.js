@@ -21,6 +21,9 @@ const Event = db.define('event', {
     },
     eventCreator:{
         type: Sequelize.STRING
+    }, 
+    eventImg: {
+        type: Sequelize.BLOB('long') // Define the eventImg column as a BLOB
     }},
     {
         tableName: 'event' // Specify the custom table name

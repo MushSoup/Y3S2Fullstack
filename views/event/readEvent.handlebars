@@ -5,17 +5,26 @@
             {{#each event}}
             <div class="col-md-11 mb-4" style="margin:auto; padding: 10px; position: relative;">
                 <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">{{eventName}}</h5>
-                        <p class="card-text">{{eventDesc}}</p>
-                        <p class="card-text">
-                            <small class="text-muted">
-                                <span class="float-left">Event Location: {{eventLocation}}</span>
-                                <span class="float-left" style="padding-left: 30%;"> Event Date: {{formatDate eventDate 'DD MMM YYYY'}}</span>
-                                <span class="float-right" style="padding-right: 15%;">Event Creator: {{eventCreator}}</span>
-                            </small>
-                        </p>
-                        <a href="#" class="btn btn-dark" style="position: absolute; bottom: 10px; right: 10px;">Register</a>
+                    <div class="row no-gutters">
+                        {{#if eventImg}}
+                            <div class="col-md-4">
+                                <img src="data:image/png;base64,{{eventImg}}" class="img-fluid" alt="Event Image">
+                            </div>
+                        {{/if}}
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">{{eventName}}</h5>
+                                <p class="card-text">{{eventDesc}}</p>
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        <span class="float-left">Event Location: {{eventLocation}}</span>
+                                        <span class="float-left" style="padding-left: 30%;"> Event Date: {{formatDate eventDate 'DD MMM YYYY'}}</span>
+                                        <span class="float-right" style="padding-right: 15%;">Event Creator: {{eventCreator}}</span>
+                                    </small>
+                                </p>
+                                <a href="#" class="btn btn-dark" style="position: absolute; bottom: 10px; right: 10px;">Register</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

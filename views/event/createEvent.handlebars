@@ -19,10 +19,15 @@
         cursor: pointer;
         border-radius: 5px;
     }
+    #imagePreview {
+        width: 200px;
+        height: 200px;
+        margin-top: 10px;
+    }
 </style>
 
 <h1 style="padding-left: 5%; padding-top: 3%;">Create Event</h1>
-<form action="/event/createEvent" method="post" id="addEvent" style="padding-left: 5%;">
+<form action="/event/createEvent" method="post" id="addEvent" style="padding-left: 5%;" enctype="multipart/form-data">
     <div style="margin-bottom: 10px;">
         <label for="eventName" style="display: block;">Event Name:</label>
         <input type="text" id="eventName" name="eventName" required>
@@ -43,12 +48,11 @@
         <textarea id="eventDescription" name="eventDescription" rows="4" cols="50" required></textarea>
     </div>
 
-    <!--
     <div style="margin-bottom: 10px;">
-        <label for="eventImages" style="display: block;">Upload Event Images:</label>
-        <input type="file" id="eventImages" name="eventImages" accept="image/*" multiple>
+        <label for="eventImage" style="display: block;">Upload Event Image:</label>
+        <input type="file" id="eventImage" name="eventImage" accept="image/*" onchange="previewImage(event)" required>
+        <img id="imagePreview" src="#" alt="Image Preview" style="display: none;">
     </div>
-    -->
 
     <div style="margin-top: 10px;">
         <button>Create Event</button>
@@ -67,4 +71,15 @@
             }
         });
     });
+
+    function previewImage(event) {
+        var input = event.target;
+        var reader = new FileReader();
+        reader.onload = function(){
+            var img = document.getElementById('imagePreview');
+            img.src = reader.result;
+            img.style.display = 'block';
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
 </script>
