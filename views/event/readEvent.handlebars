@@ -1,3 +1,25 @@
+<style>
+.image-container {
+  width: 200px; /* Set the width of the image */
+  height: 200px; /* Set the height of the image */
+  overflow: hidden; /* Crop the image */
+ margin: 25px 0px 25px 25px;
+}
+
+.image-container img {
+  width: 100%; /* Make the image fill the container */
+  height: 100%; /* Maintain aspect ratio */
+  object-fit: cover; /* Crop the image to fit */
+}
+
+.card{
+    height: 250px;
+    width: auto;
+}   
+</style>
+
+
+
 <div class="container" style="padding-left:0%">
     {{#if event}}
         <h3 style="padding-top: 3%; text-align: center;">Events</h3>
@@ -7,22 +29,26 @@
                 <div class="card">
                     <div class="row no-gutters">
                         {{#if eventImg}}
-                            <div class="col-md-4">
+                            <div class=" image-container">
                                 <img src="data:image/png;base64,{{eventImg}}" class="img-fluid" alt="Event Image">
                             </div>
                         {{/if}}
-                        <div class="col-md-8">
+                        <div class="">
                             <div class="card-body">
-                                <h5 class="card-title">{{eventName}}</h5>
+                                <h3 class="card-title">{{eventName}}</h3>
+                                <small class="text-muted">
+                                <span class="float-left" style="">Organised by: {{eventCreator}}</span>
+                                </small><br>
                                 <p class="card-text">{{eventDesc}}</p>
-                                <p class="card-text">
-                                    <small class="text-muted">
-                                        <span class="float-left">Event Location: {{eventLocation}}</span>
-                                        <span class="float-left" style="padding-left: 30%;"> Event Date: {{formatDate eventDate 'DD MMM YYYY'}}</span>
-                                        <span class="float-right" style="padding-right: 15%;">Event Creator: {{eventCreator}}</span>
-                                    </small>
-                                </p>
-                                <a href="#" class="btn btn-dark" style="position: absolute; bottom: 10px; right: 10px;">Register</a>
+                                <div class="mt-auto event-details">
+                                    <p class="card-text" style="margin-top: auto;">
+                                        <small class="text-muted">
+                                            <span class="float-left" style="position: absolute; bottom: 20px;">Event Location: {{eventLocation}}</span>
+                                            <span class="float-left" style="position: absolute; bottom: 20px; left: 50%;"> Event Date: {{formatDate eventDate 'DD MMM YYYY'}}</span>
+                                        </small>
+                                    </p>
+                                    <a href="#" class="btn btn-dark" style="position: absolute; bottom: 20px; right: 10px;">Register</a>
+                                </div>
                             </div>
                         </div>
                     </div>
