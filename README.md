@@ -21,3 +21,7 @@ Fullstack project for Y3 semester 2
 [Figma (prototype)](https://www.figma.com/file/Y8U0s0TmnQal12sXVj4Pkl/TechCycle?type=design&node-id=0-1&mode=design&t=x3yUwJCaUGJz6qQx-0)
 
 <img src="https://wimg.rule34.xxx//samples/7741/sample_422c5cacb16eb731abd0e8ae642263bc.jpg?8839177" width="45%"> <img src="https://wimg.rule34.xxx//samples/7096/sample_a361f1e2bcc7b6a0f6972480a34cd0e8.jpg?8094561" width="45%">
+
+
+npm install leaflet-control-geocoder
+npm install express leaflet

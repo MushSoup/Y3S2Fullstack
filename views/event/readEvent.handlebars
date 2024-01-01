@@ -26,7 +26,7 @@
         <div class="row" style="">
             {{#each event}}
             <div class="col-md-11 mb-4" style="margin:auto; padding: 10px; position: relative;">
-                <div class="card">
+                <div class="card" style="cursor: pointer;">
                     <div class="row no-gutters">
                         {{#if eventImg}}
                             <div class=" image-container">
@@ -60,3 +60,15 @@
         <h3>No Events</h3>
     {{/if}}
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+        const cards = document.querySelectorAll('.card');
+
+        cards.forEach(card => {
+            card.addEventListener('click', function() {
+                window.location.href = '/event/expandedEvent';
+            });
+        });
+    });
+</script>

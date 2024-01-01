@@ -1,0 +1,59 @@
+<div class="container">
+ <div class="row">
+        <div class="col-md-11 mb-4" style="margin:auto; padding: 10px; position: relative;">
+            <div class="card" style="height: 750px;">
+                <div class="row no-gutters">
+                    <div class="image-container">
+                        <img src="" alt="fake image">
+                    </div>
+                    <div class="text-body">
+                        <h2>Event Title0</h2>
+                        {{#if imagesExist}}
+                            <div class="image-row">
+                                {{#each image}}
+                                   <img src="" alt="fake image row">
+                                {{/each}}
+                            </div>
+                        {{/if}}
+                        <p>Event Description</p>
+                        {{!-- put google maps based on location here --}}
+                        {{!-- put countdown timer based on date here --}}
+                        <h1>Event will start in</h1>
+                        {{#if eventOver}}
+                            <h1>Event has been completed</h1>
+
+                            {{else}}
+                               <div class="countdown-timer">
+                            {{#if days}}
+                                <div class="black-box">
+                                    <h1>2</h1>
+                                </div>
+                            {{/if}}
+
+                            {{#if hours}}
+                                <div class="black-box">
+                                    <h1>2</h1>
+                                </div>
+                            {{/if}}
+
+                            {{#if minutes}}
+                                <div class="black-box">
+                                    <h1>2</h1>
+                                </div>
+                            {{/if}}
+
+                            {{#if seconds}}
+                                <div class="black-box">
+                                    <h1>2</h1>
+                                </div>
+                            {{/if}}
+
+                            </div>
+                        {{/if}}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+ </div>
+</div>

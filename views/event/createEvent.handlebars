@@ -33,9 +33,57 @@
         <input type="text" id="eventName" name="eventName" required>
     </div>
 
-    <div style="margin-bottom: 10px;">
-        <label for="eventLocation" style="display: block;">Event Location:</label>
-        <input type="text" id="eventLocation" name="eventLocation" required>
+    <label for="eventLocation" style="display: block;">Event Name:</label>
+    <div style="margin-bottom: 10px; ">
+        <div id="map" style="height: 400px; width:400px"></div>
+  <input type="hidden" id="eventLocation" name="eventLocation" required>
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+ <script>
+  // Leaflet map initialization
+    var map = L.map('map').setView([1.3521, 103.8198], 12);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+    }).addTo(map);
+
+    // Initialize marker without adding it to the map yet
+    var marker = L.marker([0, 0]).addTo(map); // Create a marker with initial position [0, 0]
+
+    // Leaflet Geocoder setup
+    var geocoder = L.Control.geocoder({
+        defaultMarkGeocode: false,
+        collapsed: false, // Keep the geocoder control always open
+        geocoder: new L.Control.Geocoder.Nominatim({
+            geocodingQueryParams: { countrycodes: 'SG' }, // Limit search to Singapore (SG)
+            bounds: L.latLngBounds(L.latLng(1.16, 103.59), L.latLng(1.47, 104.14)), // Bounding box for Singapore
+            language: 'en' // Specify the language as English
+        })
+    }).on('markgeocode', function (e) {
+        // Remove the previously created polygon (box)
+        map.eachLayer(function (layer) {
+            if (layer instanceof L.Polygon) {
+                map.removeLayer(layer);
+            }
+        });
+
+        // Update marker's position to the selected location
+        marker.setLatLng(e.geocode.center).addTo(map);
+
+        // Update eventLocation input with latitude and longitude
+        document.getElementById('eventLocation').value = e.geocode.center.lat + ',' + e.geocode.center.lng;
+
+        // Save the English name of the location and display it
+        var englishName = e.geocode.name;
+        document.getElementById('locationName').innerText = englishName;
+
+        // Move the map view to the selected location
+        map.setView(e.geocode.center, 14); // Zoom level can be adjusted (14 is an example)
+    });
+
+    // Add the geocoder control to the map
+    geocoder.addTo(map);
+  </script>
+  <p>Location Name: <span id="locationName"></span></p>
     </div>
 
     <div style="margin-bottom: 10px;">
@@ -62,6 +110,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+ <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
 <script>
     $(function() {
         $("#datepicker").datepicker({
@@ -82,4 +132,6 @@
         };
         reader.readAsDataURL(input.files[0]);
     }
+
+
 </script>

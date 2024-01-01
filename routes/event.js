@@ -62,4 +62,8 @@ router.post('/createEvent', upload.single('eventImage'), (req, res) => {
         .catch(err => console.log(err))
 });
 
+router.get('/expandedEvent', (req, res) => {
+    res.render('event/expandedEvent')
+})
+
 module.exports = router;
