@@ -1,6 +1,13 @@
 # Y3S2Fullstack
 Fullstack project for Y3 semester 2
 
+### Changes to be made
+* Change the create event page to be similar to the expanded event page preview type
+* finish up the practical, learn how to grab information by id/name (selected event)
+* live countdown
+* forum
+* :)
+
 ### Events
 * Registration Form: Allow users to register for the event directly on the page, collecting essential details such as name, email, and any additional information required for attendance.
 * Interactive Map: Embed an interactive map that displays the event venue's location, making it easier for attendees to find their way.
