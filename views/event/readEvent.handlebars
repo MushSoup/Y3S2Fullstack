@@ -16,6 +16,14 @@
     height: 250px;
     width: auto;
 }   
+.expand::before{
+    content: "";
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+}
 </style>
 
 
@@ -27,6 +35,7 @@
             {{#each event}}
             <div class="col-md-11 mb-4" style="margin:auto; padding: 10px; position: relative;">
                 <div class="card" style="cursor: pointer;">
+                    <a href="/event/expandedEvent/{{eventID}}" style="text-decoration:none; color:inherit;" class="expand"></a>   
                     <div class="row no-gutters">
                         {{#if eventImg}}
                             <div class=" image-container">
@@ -47,7 +56,7 @@
                                             <span class="float-left" style="position: absolute; bottom: 20px; left: 50%;"> Event Date: {{formatDate eventDate 'DD MMM YYYY'}}</span>
                                         </small>
                                     </p>
-                                    <a href="#" class="btn btn-dark" style="position: absolute; bottom: 20px; right: 10px;">Register</a>
+                                    <a href="/event/expandedEvent/20" class="btn btn-dark" style="position: absolute; bottom: 20px; right: 10px;">Register</a>
                                 </div>
                             </div>
                         </div>
@@ -61,14 +70,3 @@
     {{/if}}
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-        const cards = document.querySelectorAll('.card');
-
-        cards.forEach(card => {
-            card.addEventListener('click', function() {
-                window.location.href = '/event/expandedEvent';
-            });
-        });
-    });
-</script>

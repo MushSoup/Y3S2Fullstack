@@ -1,55 +1,112 @@
+<style>
+.image-container {
+  width: 200px; /* Set the width of the image */
+  height: 200px; /* Set the height of the image */
+  overflow: hidden; /* Crop the image */
+ margin: 25px 0px 25px 25px;
+}
+
+.image-container img {
+  width: 100%; /* Make the image fill the container */
+  height: 100%; /* Maintain aspect ratio */
+  object-fit: cover; /* Crop the image to fit */
+}
+
+.card{
+    height: 250px;
+    width: auto;
+}   
+
+.black-box h1{
+    font-family: verdana;
+    color: white;
+    margin: 0;
+    text-align: center
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: min(10vw, 10vh);
+}
+#eventStart{
+     display: flex;
+        align-items: center;
+        justify-content: center;
+}
+.countdown-timer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .black-box {
+        width: 250px;
+        height: 250px;
+        background-color: black;
+        margin: 0 25px; 
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        padding: 10px;
+    }
+</style>
+
 <div class="container">
  <div class="row">
         <div class="col-md-11 mb-4" style="margin:auto; padding: 10px; position: relative;">
             <div class="card" style="height: 750px;">
                 <div class="row no-gutters">
-                    <div class="image-container">
-                        <img src="" alt="fake image">
-                    </div>
-                    <div class="text-body">
-                        <h2>Event Title0</h2>
-                        {{#if imagesExist}}
+                    {{#if event.eventImg}}
+                            <div class=" image-container">
+                                <img src="data:image/png;base64,{{event.eventImg}}" class="img-fluid" alt="Event Image">
+                            </div>
+                        {{/if}}
+                    <div class="card-body ">
+                        <h2>{{event.eventName}}</h2><br>
+                        <div class="col-md-12">
+                            <small class="text-muted">
+                                 <div class="row">
+                                    <div class="col-md-4 float-left">Organised by: {{event.eventCreator}}</div>
+                                    <div class="col-md-4" style="text-align: center;">Event Location: {{event.eventLocation}}</div>
+                                    <div class="col-md-4 float-right" style="text-align: right;">Event Date: {{formatDate event.eventDate 'DD MMM YYYY'}}</div>
+                                </div>
+                            </small></div><br>
+                        {{!-- {{#if event.eventImg}}
                             <div class="image-row">
-                                {{#each image}}
-                                   <img src="" alt="fake image row">
+                                {{#each event.eventImg}}
+                                   <div class=" image-container">
+                                        <img src="" class="img-fluid" alt="Event Image">
+                                    </div>
                                 {{/each}}
                             </div>
-                        {{/if}}
-                        <p>Event Description</p>
+                        {{/if}} --}}
+                        <p>{{event.eventDesc}}</p>
                         {{!-- put google maps based on location here --}}
                         {{!-- put countdown timer based on date here --}}
-                        <h1>Event will start in</h1>
-                        {{#if eventOver}}
-                            <h1>Event has been completed</h1>
+                        <div class="countdown-section">
+                        <div id="countdown"></div>
+                            <h1 id="eventStart">Event will start in</h1>
+                                <div class="countdown-timer">
+                                    <div class="black-box">
+                                        <h1 id="days">0</h1>
+                                    </div>
 
-                            {{else}}
-                               <div class="countdown-timer">
-                            {{#if days}}
-                                <div class="black-box">
-                                    <h1>2</h1>
-                                </div>
-                            {{/if}}
+                                    <div class="black-box">
+                                        <h1 id="hours">0</h1>
+                                    </div>
 
-                            {{#if hours}}
-                                <div class="black-box">
-                                    <h1>2</h1>
-                                </div>
-                            {{/if}}
+                                    <div class="black-box">
+                                        <h1 id="minutes">0</h1>
+                                    </div>
 
-                            {{#if minutes}}
-                                <div class="black-box">
-                                    <h1>2</h1>
-                                </div>
-                            {{/if}}
-
-                            {{#if seconds}}
-                                <div class="black-box">
-                                    <h1>2</h1>
-                                </div>
-                            {{/if}}
-
+                                    <div class="black-box">
+                                        <h1 id="seconds">0</h1>
+                                    </div>
                             </div>
-                        {{/if}}
+                        </div>
                     </div>
 
                 </div>
@@ -57,3 +114,34 @@
         </div>
  </div>
 </div>
+
+<script>
+    // Set the event date
+    var eventDate = new Date("{{event.eventDate}}");
+
+    // Update the countdown every second
+    var countdown = setInterval(function() {
+        var now = new Date().getTime();
+        var distance = eventDate - now;
+
+        if (distance < 0) {
+            clearInterval(countdown);
+            document.getElementById("eventStart").style.visibility = "hidden";
+            document.getElementById("countdown").innerHTML = "<h1>Event has been completed</h1>";
+            var blackBoxes = document.getElementsByClassName("black-box");
+            for (var i = 0; i < blackBoxes.length; i++) {
+            blackBoxes[i].style.visibility = "hidden";
+        }
+        } else {
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60) / (1000 * 60)));
+            var seconds = Math.floor((distance % (1000 * 60) / 1000));
+
+        // Display the countdown
+        document.getElementById("days").innerText = days;
+        document.getElementById("hours").innerText = hours;
+        document.getElementById("minutes").innerText = minutes;
+        document.getElementById("seconds").innerText = seconds;
+    } 1000});
+</script>

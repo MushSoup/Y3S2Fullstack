@@ -62,8 +62,21 @@ router.post('/createEvent', upload.single('eventImage'), (req, res) => {
         .catch(err => console.log(err))
 });
 
-router.get('/expandedEvent', (req, res) => {
-    res.render('event/expandedEvent')
-})
+router.get('/expandedEvent/:eventID', (req, res) => {
+    console.log("In edit, id=",req.params.eventID)
+    Event.findOne({
+        where:{
+            eventID: req.params.eventID
+        },raw:true,
+        nest: true
+    }).then((event) =>{
+        if (event.eventImg) {
+            event.eventImg = event.eventImg.toString('base64');
+        }
+        res.render('event/expandedEvent',{
+            event: event,
+        })
+    }).catch(err => console.log(err));
+});
 
 module.exports = router;
