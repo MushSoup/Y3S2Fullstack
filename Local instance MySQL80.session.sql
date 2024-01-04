@@ -1,2 +1,2 @@
 
-SELECT * FROM event;
+SHOW CREATE TABLE eventattendee;
