@@ -1,0 +1,116 @@
+<style>
+.image-container {
+  width: 200px; /* Set the width of the image */
+  height: 200px; /* Set the height of the image */
+  overflow: hidden; /* Crop the image */
+ margin: 25px 0px 25px 25px;
+}
+
+.image-container img {
+  width: 100%; /* Make the image fill the container */
+  height: 100%; /* Maintain aspect ratio */
+  object-fit: cover; /* Crop the image to fit */
+}
+
+.card{
+    height: 250px;
+    width: auto;
+}   
+
+    input[type="text"], input[type="date"], textarea {
+        border-radius: 10px;
+        padding: 5px;
+        background-color: white;
+        color: #2c2727;
+        margin-top: 5px;
+    }
+    button {
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+</style>
+
+<div class="container">
+ <div class="row">
+        <div class="col-md-11 mb-4" style="margin:auto; padding: 10px; position: relative;">
+            <div class="card" style="height: 750px;">
+                <div class="row no-gutters">
+                    {{#if event.eventImg}}
+                            <div class=" image-container">
+                                <img src="data:image/png;base64,{{event.eventImg}}" class="img-fluid" alt="Event Image">
+                            </div>
+                        {{/if}}
+                    <div class="card-body ">
+                         <div style="margin-bottom: 10px;">
+                            <label for="eventName" style="display: block;">Event Name:</label>
+                            <input type="text" id="eventName" name="eventName" value="{{event.eventName}}" required><br>
+                        </div>
+                        <div class="col-md-12">
+                            <small class="text-muted">
+                                 <div class="row">
+                                    <div class="col-md-4 float-left">Organised by: You</div>
+                                    <div class="col-md-4" style="text-align: center;">Event Location: {{event.eventLocation}}</div>
+                                    <div style="margin-bottom: 10px;" class="col-md-4 float-right">
+                                        <label for="eventDate" style="display: block;">Event Date:</label>
+                                        <input id="datepicker" width="200" name="eventDate" value="{{formatDate event.eventDate 'DD/MM/YYYY'}}" readonly>
+                                    </div>
+                            
+                                </div>
+                            </small></div><br>
+                        {{!-- {{#if event.eventImg}}
+                            <div class="image-row">
+                                {{#each event.eventImg}}
+                                   <div class=" image-container">
+                                        <img src="" class="img-fluid" alt="Event Image">
+                                    </div>
+                                {{/each}}
+                            </div>
+                        {{/if}} --}}
+                        <p>{{event.eventDesc}}</p>
+                        {{!-- put google maps based on location here --}}
+
+                        {{!-- <div id="map" style="height: 400px; width: 100%;"></div>
+                        <div id="plusCode">test</div>
+                        <iframe
+                            width="600"
+                            height="450"
+                            frameborder="0" style="border:0"
+                             src="https://www.google.com/maps/embed/v1/view?key=AIzaSyAkIJSwIxhL_0K6hzTOZeDFZmeAyiu9NDI&center={{event.eventLocation}}&zoom=15"
+                             allowfullscreen>
+                        </iframe>
+                        <script>
+                            // Get the latitude and longitude from the eventLocation
+                            var eventLocation = "{{event.eventLocation}}";
+                            var latLng = eventLocation.split(',');
+
+                            // Convert latitude and longitude to plus code
+                            var plusCode = OpenLocationCode.encode(parseFloat(latLng[0]), parseFloat(latLng[1]));
+                             document.getElementById('plusCode').innerText = "Plus Code: " + plusCode;
+
+                            var iframe = document.querySelector('iframe');
+                            iframe.src = "https://www.google.com/maps/embed/v1/place?key=AIzaSyAkIJSwIxhL_0K6hzTOZeDFZmeAyiu9NDI&q="+ plusCode+"&zoom=15";
+                        </script> --}}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+ </div>
+</div>
+
+
+
+<script>
+   $(function() {
+        $("#datepicker").datepicker({
+            dateFormat: 'dd/mm/yyyy',
+            onSelect: function(dateText) {
+                $('#datepicker').val(dateText);
+            }
+        });
+    });
+</script>

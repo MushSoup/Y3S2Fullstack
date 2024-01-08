@@ -15,6 +15,7 @@ router.use(cookieParser());
 const storage = multer.memoryStorage(); // Store files in memory
 const upload = multer({ storage: storage });
 
+//Event Card Page
 router.get('/readEvent', (req, res) => {
     Event.findAll({
         order: [
@@ -35,11 +36,12 @@ router.get('/readEvent', (req, res) => {
         .catch(err => console.log(err));
 });
 
+//Create Event
 router.get('/showCreateEvent', (req, res) => {
     res.render('event/createEvent'); // Activities view/video/addVideo.handlebars
 });
 
-// Adds new event from /event/createEvent
+// Adds new event
 router.post('/createEvent', upload.single('eventImage'), (req, res) => {
     let eventName = req.body.eventName;
     let eventDesc = req.body.eventDescription;
@@ -64,6 +66,7 @@ router.post('/createEvent', upload.single('eventImage'), (req, res) => {
         .catch(err => console.log(err))
 });
 
+//Event Registration Form
 router.get('/registerEvent/:eventID', (req, res) => {
     Event.findOne({
         where: {
@@ -114,7 +117,7 @@ router.post('/registerEvent/:eventID', (req, res) => {
     let aExtra = req.body.aExtra;
     let eventID = req.params.eventID;
     let userID = req.user ? req.user.userID : null;
-    
+
 if (req.user){
     Attendee.create({
         aName,
@@ -161,6 +164,24 @@ router.get('/expandedEvent/:eventID', (req, res) => {
             event.eventImg = event.eventImg.toString('base64');
         }
         res.render('event/expandedEvent',{
+            event: event,
+        })
+    }).catch(err => console.log(err));
+});
+
+
+router.get('/editEvent/:eventID', (req, res) => {
+    console.log("In edit, id=",req.params.eventID)
+    Event.findOne({
+        where:{
+            eventID: req.params.eventID
+        },raw:true,
+        nest: true
+    }).then((event) =>{
+        if (event.eventImg) {
+            event.eventImg = event.eventImg.toString('base64');
+        }
+        res.render('event/editEvent',{
             event: event,
         })
     }).catch(err => console.log(err));
