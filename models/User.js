@@ -19,7 +19,24 @@ const User = db.define('users', {
     password: {
         type: Sequelize.STRING
     },
-    
+    tel: {
+        type: Sequelize.INTEGER
+    },
+    address: {
+        type: Sequelize.STRING
+    },
+    postal: {
+        type: Sequelize.STRING
+    },
+    gender: {
+        type: Sequelize.CHAR(1)
+    },
+    DOB: {
+        type: Sequelize.STRING
+    },
+    cardNo: {
+        type: Sequelize.INTEGER
+    }
 });
 
 module.exports = User;

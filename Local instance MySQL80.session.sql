@@ -1,3 +1,2 @@
-SELECT * FROM forums;
-SELECT * FROM users;
-SELECT * FROM events;
+
+SHOW CREATE TABLE eventattendee;

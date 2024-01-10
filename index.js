@@ -1,6 +1,7 @@
 const express = require('express') 
 const session = require('express-session');
 const exphbs = require('express-handlebars')//importing the express handlebars
+const Handlebars = require('handlebars');
 const cookieParser = require('cookie-parser');
 const bodyParser = require("body-parser");
 const flash = require('connect-flash');
@@ -33,9 +34,13 @@ app.engine('handlebars', exphbs.engine({
     partialsDir:__dirname+'/views/partials/',
     helpers: {
 		formatDate: formatDate,
-        radioCheck: radioCheck
+        radioCheck: radioCheck,
 	}
 }));
+
+Handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
+    return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
+  });
 
 //set our apps to use the handlebars engine
 app.set('view engine','handlebars');
