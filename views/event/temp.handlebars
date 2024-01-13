@@ -1,17 +1,46 @@
-<style>
-    body {
-        background-color: #2c2727;
-        color: white;
-    }
-    input[type="text"], input[type="date"], textarea {
-        border-radius: 10px;
-        padding: 5px;
-        background-color: white;
-        color: #2c2727;
-        border: none;
-        margin-top: 5px;
-    }
-.panel {
+<!--
+    Copyright 2023 Google LLC
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        https://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+  -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Address Selection</title>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      .sb-title {
+        position: relative;
+        top: -12px;
+        font-family: Roboto, sans-serif;
+        font-weight: 500;
+      }
+
+      .sb-title-icon {
+        position: relative;
+        top: -5px;
+      }
+
+      .card-container {
+        display: flex;
+        height: 500px;
+        width: 600px;
+      }
+
+      .panel {
         background: white;
         width: 300px;
         padding: 20px;
@@ -32,6 +61,7 @@
       .map {
         width: 300px;
       }
+
       h2 {
         margin: 0;
         font-family: Roboto, sans-serif;
@@ -67,87 +97,15 @@
         line-height: 27px;
         padding: 3.5px 10.5px;
       }
-
-    button {
-        padding: 10px 20px;
-        background-color: #4CAF50;
-        color: white;
-        border: none;
-        cursor: pointer;
-        border-radius: 5px;
-    }
-    #imagePreview {
-        width: 200px;
-        height: 200px;
-        margin-top: 10px;
-    }
-    
-      .card-container {
-        display: flex;
-        height: 500px;
-        width: 600px;
-      }
-</style>
-
-<h1 style="padding-left: 5%; padding-top: 3%;">Create Event</h1>
-<form action="/event/createEvent" method="post" id="addEvent" style="padding-left: 5%;" enctype="multipart/form-data">
-    <div style="margin-bottom: 10px;">
-        <label for="eventName" style="display: block;">Event Name:</label>
-        <input type="text" id="eventName" name="eventName" required>
-    </div>
-<div class="card-container">
-      <div class="panel">
-        <div>
-          <img class="sb-title-icon" src="https://fonts.gstatic.com/s/i/googlematerialicons/location_pin/v5/24px.svg" alt="">
-          <span class="sb-title">Address Selection</span>
-        </div>
-        <input type="text" placeholder="Address" id="location-input"/>
-        <input type="text" placeholder="Apt, Suite, etc (optional)"/>
-        <input type="text" placeholder="City" id="locality-input"/>
-        <div class="half-input-container">
-          <input type="text" class="half-input" placeholder="State/Province" id="administrative_area_level_1-input"/>
-          <input type="text" class="half-input" placeholder="Zip/Postal code" id="postal_code-input"/>
-        </div>
-        <input type="text" placeholder="Country" id="country-input"/>
-        <button class="button-cta">Event Location:</button>
-      </div>
-      <div class="map" id="gmp-map"></div>
-    </div>
-    <div style="margin-bottom: 10px;">
-        <label for="eventDate" style="display: block;">Event Date:</label>
-        <input id="datepicker" width="200" name="eventDate" readonly>
-    </div>
-
-    <div style="margin-bottom: 10px;">
-        <label for="eventDescription" style="display: block;">Event Description:</label>
-        <textarea id="eventDescription" name="eventDescription" rows="4" cols="50" required></textarea>
-    </div>
-
-    <div style="margin-bottom: 10px;">
-        <label for="eventImage" style="display: block;">Upload Event Image:</label>
-        <input type="file" id="eventImage" name="eventImage" accept="image/*" onchange="previewImage(event)" required>
-        <img id="imagePreview" src="#" alt="Image Preview" style="display: none;">
-    </div>
-
-    <div style="margin-top: 10px;">
-        <button>Create Event</button>
-    </div>
-</form>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkIJSwIxhL_0K6hzTOZeDFZmeAyiu9NDI&libraries=places,marker&callback=initMap&solution_channel=GMP_QB_addressselection_v2_cABC" async defer></script>
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans+Text:500&amp;lang=en">
+    </style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans+Text:500&amp;lang=en">
     <script>
       "use strict";
 
       const CONFIGURATION = {
         "ctaTitle": "Event Location:",
         "mapOptions": {"center":{"lat":1.3521,"lng":103.8198},"fullscreenControl":true,"mapTypeControl":false,"streetViewControl":false,"zoom":13,"zoomControl":true,"maxZoom":22,"mapId":""},
-        "mapsApiKey": "AIzaSyAkIJSwIxhL_0K6hzTOZeDFZmeAyiu9NDI",
+        "mapsApiKey": "YOUR_MAPS_API_KEY",
         "capabilities": {"addressAutocompleteControl":true,"mapDisplayControl":true,"ctaControl":true}
       };
 
@@ -229,27 +187,26 @@
         });
       }
     </script>
-
-<script>
-    $(function() {
-        $("#datepicker").datepicker({
-            dateFormat: 'dd/mm/yyyy',
-            onSelect: function(dateText) {
-                $('#datepicker').val(dateText);
-            }
-        });
-    });
-
-    function previewImage(event) {
-        var input = event.target;
-        var reader = new FileReader();
-        reader.onload = function(){
-            var img = document.getElementById('imagePreview');
-            img.src = reader.result;
-            img.style.display = 'block';
-        };
-        reader.readAsDataURL(input.files[0]);
-    }
-
-
-</script>
+  </head>
+  <body>
+    <div class="card-container">
+      <div class="panel">
+        <div>
+          <img class="sb-title-icon" src="https://fonts.gstatic.com/s/i/googlematerialicons/location_pin/v5/24px.svg" alt="">
+          <span class="sb-title">Address Selection</span>
+        </div>
+        <input type="text" placeholder="Address" id="location-input"/>
+        <input type="text" placeholder="Apt, Suite, etc (optional)"/>
+        <input type="text" placeholder="City" id="locality-input"/>
+        <div class="half-input-container">
+          <input type="text" class="half-input" placeholder="State/Province" id="administrative_area_level_1-input"/>
+          <input type="text" class="half-input" placeholder="Zip/Postal code" id="postal_code-input"/>
+        </div>
+        <input type="text" placeholder="Country" id="country-input"/>
+        <button class="button-cta">Event Location:</button>
+      </div>
+      <div class="map" id="gmp-map"></div>
+    </div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkIJSwIxhL_0K6hzTOZeDFZmeAyiu9NDI&libraries=places,marker&callback=initMap&solution_channel=GMP_QB_addressselection_v2_cABC" async defer></script>
+  </body>
+</html>

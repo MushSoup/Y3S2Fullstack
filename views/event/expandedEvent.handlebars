@@ -13,7 +13,6 @@
 }
 
 .card{
-    height: 250px;
     width: auto;
 }   
 
@@ -39,7 +38,11 @@
         align-items: center;
         justify-content: center;
     }
-
+#map{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
     .black-box {
         width: 250px;
         height: 250px;
@@ -57,7 +60,7 @@
 <div class="container">
  <div class="row">
         <div class="col-md-11 mb-4" style="margin:auto; padding: 10px; position: relative;">
-            <div class="card" style="height: 750px;">
+            <div class="card" style="height:;">
                 <div class="row no-gutters">
                     {{#if event.eventImg}}
                             <div class=" image-container">
@@ -86,8 +89,7 @@
                         <p>{{event.eventDesc}}</p>
                         {{!-- put google maps based on location here --}}
 
-                        {{!-- <div id="map" style="height: 400px; width: 100%;"></div>
-                        <div id="plusCode">test</div>
+                       <div id="map" style="">
                         <iframe
                             width="600"
                             height="450"
@@ -95,18 +97,17 @@
                              src="https://www.google.com/maps/embed/v1/view?key=AIzaSyAkIJSwIxhL_0K6hzTOZeDFZmeAyiu9NDI&center={{event.eventLocation}}&zoom=15"
                              allowfullscreen>
                         </iframe>
+                        </div>
                         <script>
                             // Get the latitude and longitude from the eventLocation
                             var eventLocation = "{{event.eventLocation}}";
                             var latLng = eventLocation.split(',');
 
                             // Convert latitude and longitude to plus code
-                            var plusCode = OpenLocationCode.encode(parseFloat(latLng[0]), parseFloat(latLng[1]));
-                             document.getElementById('plusCode').innerText = "Plus Code: " + plusCode;
 
                             var iframe = document.querySelector('iframe');
                             iframe.src = "https://www.google.com/maps/embed/v1/place?key=AIzaSyAkIJSwIxhL_0K6hzTOZeDFZmeAyiu9NDI&q="+ plusCode+"&zoom=15";
-                        </script> --}}
+                        </script>
                         {{!-- put countdown timer based on date here --}}
                         <div class="countdown-section">
                         <div id="countdown"></div>

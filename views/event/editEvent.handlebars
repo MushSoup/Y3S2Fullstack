@@ -61,7 +61,7 @@
                             
                                 </div>
                             </small></div><br>
-                        {{!-- {{#if event.eventImg}}
+                       {{!-- {{#if event.eventImg}}
                             <div class="image-row">
                                 {{#each event.eventImg}}
                                    <div class=" image-container">
@@ -69,7 +69,11 @@
                                     </div>
                                 {{/each}}
                             </div>
-                        {{/if}} --}}
+                        {{/if}}  --}}
+                        <div style="margin-bottom: 10px;">
+        <label for="eventDescription" style="display: block;">Event Description:</label>
+        <textarea id="eventDescription" name="eventDescription" rows="4" cols="50" value="{{event.eventDesc}}" vrequired></textarea>
+    </div>
                         <p>{{event.eventDesc}}</p>
                         {{!-- put google maps based on location here --}}
 
