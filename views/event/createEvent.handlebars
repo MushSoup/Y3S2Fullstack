@@ -101,19 +101,16 @@
           <img class="sb-title-icon" src="https://fonts.gstatic.com/s/i/googlematerialicons/location_pin/v5/24px.svg" alt="">
           <span class="sb-title">Address Selection</span>
         </div>
-        <input type="text" placeholder="Address" id="location-input"/>
-        <input type="text" placeholder="Apt, Suite, etc (optional)"/>
-        <input type="text" placeholder="City" id="locality-input"/>
+        <input type="text" placeholder="Address" id="location-input" required />
+        <input type="text" placeholder="City" id="locality-input" required/>
         <div class="half-input-container">
-          <input type="text" class="half-input" placeholder="State/Province" id="administrative_area_level_1-input"/>
-          <input type="text" class="half-input" placeholder="Zip/Postal code" id="postal_code-input"/>
+          <input type="text" placeholder="Country" id="country-input"/>
+          <input type="text" class="half-input" placeholder="Zip/Postal code" id="postal_code-input" required/>
         </div>
-        <input type="text" placeholder="Country" id="country-input"/>
       </div>
       <div class="map" id="gmp-map"></div>
-      
     </div>
-    <input id="fullAddressInput" type="text" value="" readonly>
+    <input type="text" placeholder="Location" id="eventLocation" name="eventLocation" readonly />
     <div style="margin-bottom: 10px;">
         <label for="eventDate" style="display: block;">Event Date:</label>
         <input id="datepicker" width="200" name="eventDate" readonly>
@@ -153,12 +150,11 @@
       };
 
       const SHORT_NAME_ADDRESS_COMPONENT_TYPES =
-          new Set(['street_number', 'administrative_area_level_1', 'postal_code']);
+          new Set(['street_number', 'postal_code']);
 
       const ADDRESS_COMPONENT_TYPES_IN_FORM = [
         'location',
         'locality',
-        'administrative_area_level_1',
         'postal_code',
         'country',
       ];
@@ -226,20 +222,30 @@
             window.alert(`No details available for input: '${place.name}'`);
             return;
           }
-          const fullAddress = place.formatted_address;
-          console.log(fullAddress +"?");
-          document.getElementById('fullAddressInput').value = fullAddress;
-          console.log(fullAddressInput);
           renderAddress(place, map, marker);
           fillInAddress(place);
+          retrieveAddress();
         });
+      }
+
+      function retrieveAddress() {
+        const address = {
+          location: document.getElementById('location-input').value,
+          locality: document.getElementById('locality-input').value,
+          postalCode: document.getElementById('postal_code-input').value,
+          country: document.getElementById('country-input').value
+        };
+         const formattedAddress = `${address.location}, ${address.locality} ${address.postalCode}, ${address.country}`;
+         console.log(address);
+         document.getElementById('eventLocation').value = formattedAddress;
       }
     </script>
 
 <script>
     $(function() {
         $("#datepicker").datepicker({
-            dateFormat: 'dd/mm/yyyy',
+            dateFormat: 'dd/mm/yy',
+            minDate:0,
             onSelect: function(dateText) {
                 $('#datepicker').val(dateText);
             }

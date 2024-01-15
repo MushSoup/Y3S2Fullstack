@@ -94,20 +94,10 @@
                             width="600"
                             height="450"
                             frameborder="0" style="border:0"
-                             src="https://www.google.com/maps/embed/v1/view?key=AIzaSyAkIJSwIxhL_0K6hzTOZeDFZmeAyiu9NDI&center={{event.eventLocation}}&zoom=15"
+                             src=""
                              allowfullscreen>
                         </iframe>
                         </div>
-                        <script>
-                            // Get the latitude and longitude from the eventLocation
-                            var eventLocation = "{{event.eventLocation}}";
-                            var latLng = eventLocation.split(',');
-
-                            // Convert latitude and longitude to plus code
-
-                            var iframe = document.querySelector('iframe');
-                            iframe.src = "https://www.google.com/maps/embed/v1/place?key=AIzaSyAkIJSwIxhL_0K6hzTOZeDFZmeAyiu9NDI&q="+ plusCode+"&zoom=15";
-                        </script>
                         {{!-- put countdown timer based on date here --}}
                         <div class="countdown-section">
                         <div id="countdown"></div>
@@ -139,6 +129,11 @@
 </div>
 
 <script>
+const encodedAddress = encodeURIComponent("{{event.eventLocation}}");
+const embedUrl = `https://www.google.com/maps/embed/v1/place?key=AIzaSyAkIJSwIxhL_0K6hzTOZeDFZmeAyiu9NDI&q=${encodedAddress}&zoom=15`;
+const iframe = document.querySelector('#map iframe');
+iframe.src = embedUrl;
+
     // Set the event date
     var eventDate = new Date("{{event.eventDate}}");
 
@@ -167,4 +162,7 @@
         document.getElementById("minutes").innerText = minutes;
         document.getElementById("seconds").innerText = seconds;
     } 1000});
+
+
+
 </script>
