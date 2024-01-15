@@ -109,9 +109,10 @@
 
 
 <script>
-   $(function() {
+  $(function() {
         $("#datepicker").datepicker({
-            dateFormat: 'dd/mm/yyyy',
+            dateFormat: 'dd/mm/yy',
+            minDate:0,
             onSelect: function(dateText) {
                 $('#datepicker').val(dateText);
             }
