@@ -109,10 +109,11 @@
           <input type="text" class="half-input" placeholder="Zip/Postal code" id="postal_code-input"/>
         </div>
         <input type="text" placeholder="Country" id="country-input"/>
-        <button class="button-cta">Event Location:</button>
       </div>
       <div class="map" id="gmp-map"></div>
+      
     </div>
+    <input id="fullAddressInput" type="text" value="" readonly>
     <div style="margin-bottom: 10px;">
         <label for="eventDate" style="display: block;">Event Date:</label>
         <input id="datepicker" width="200" name="eventDate" readonly>
@@ -218,12 +219,17 @@
 
         autocomplete.addListener('place_changed', () => {
           const place = autocomplete.getPlace();
+          console.log(place + "lmao")
           if (!place.geometry) {
             // User entered the name of a Place that was not suggested and
             // pressed the Enter key, or the Place Details request failed.
             window.alert(`No details available for input: '${place.name}'`);
             return;
           }
+          const fullAddress = place.formatted_address;
+          console.log(fullAddress +"?");
+          document.getElementById('fullAddressInput').value = fullAddress;
+          console.log(fullAddressInput);
           renderAddress(place, map, marker);
           fillInAddress(place);
         });
