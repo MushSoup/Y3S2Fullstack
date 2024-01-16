@@ -1,212 +1,124 @@
-<!--
-    Copyright 2023 Google LLC
+<style>
+.image-container {
+  width: 200px; /* Set the width of the image */
+  height: 200px; /* Set the height of the image */
+  overflow: hidden; /* Crop the image */
+ margin: 25px 0px 25px 25px;
+}
 
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
+.image-container img {
+  width: 100%; /* Make the image fill the container */
+  height: 100%; /* Maintain aspect ratio */
+  object-fit: cover; /* Crop the image to fit */
+}
 
-        https://www.apache.org/licenses/LICENSE-2.0
+.card{
+    height: 250px;
+    width: auto;
+}   
 
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-  -->
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Address Selection</title>
-    <style>
-      body {
-        margin: 0;
-      }
-
-      .sb-title {
-        position: relative;
-        top: -12px;
-        font-family: Roboto, sans-serif;
-        font-weight: 500;
-      }
-
-      .sb-title-icon {
-        position: relative;
-        top: -5px;
-      }
-
-      .card-container {
-        display: flex;
-        height: 500px;
-        width: 600px;
-      }
-
-      .panel {
-        background: white;
-        width: 300px;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-      }
-
-      .half-input-container {
-        display: flex;
-        justify-content: space-between;
-      }
-
-      .half-input {
-        max-width: 120px;
-      }
-
-      .map {
-        width: 300px;
-      }
-
-      h2 {
-        margin: 0;
-        font-family: Roboto, sans-serif;
-      }
-
-      input {
-        height: 30px;
-      }
-
-      input {
-        border: 0;
-        border-bottom: 1px solid black;
-        font-size: 14px;
-        font-family: Roboto, sans-serif;
-        font-style: normal;
-        font-weight: normal;
-      }
-
-      input:focus::placeholder {
+    input[type="text"], input[type="date"], textarea {
+        border-radius: 10px;
+        padding: 5px;
+        background-color: white;
+        color: #2c2727;
+        margin-top: 5px;
+    }
+    button {
+        padding: 10px 20px;
+        background-color: #4CAF50;
         color: white;
-      }
-
-      .button-cta {
-        align-self: start;
-        background-color: #1976d2;
-        border: 0;
-        border-radius: 21px;
-        color: white;
+        border: none;
         cursor: pointer;
-        font-family: "Google Sans Text", sans-serif;
-        font-size: 14px;
-        font-weight: 500;
-        line-height: 27px;
-        padding: 3.5px 10.5px;
-      }
-    </style>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans+Text:500&amp;lang=en">
-    <script>
-      "use strict";
+        border-radius: 5px;
+    }
+</style>
 
-      const CONFIGURATION = {
-        "ctaTitle": "Event Location:",
-        "mapOptions": {"center":{"lat":1.3521,"lng":103.8198},"fullscreenControl":true,"mapTypeControl":false,"streetViewControl":false,"zoom":13,"zoomControl":true,"maxZoom":22,"mapId":""},
-        "mapsApiKey": "YOUR_MAPS_API_KEY",
-        "capabilities": {"addressAutocompleteControl":true,"mapDisplayControl":true,"ctaControl":true}
-      };
+<h1 style="padding-left: 5%; padding-top: 3%;">Create Event</h1>
+<form action="/event/createEvent" method="post" id="addEvent" >
+<div class="container">
+ <div class="row">
+    
+        <div class="col-md-11 mb-4" style="margin:auto; padding: 10px; position: relative;">
+            <div class="card" style="height: 750px;">
+                <div class="row no-gutters">
+                            <div class=" image-container">
+                                <input type="file" id="eventImage" name="eventImage" accept="image/*" onchange="previewImage(event)" style="display: none;" required>
+                                <img src="../../img/uploadPlaceholder.png" id="imagePreview" class="img-fluid" alt="Event Image" onclick="document.getElementById('eventImage').click();" style="cursor: pointer;">
+                            </div>
+                    <div class="card-body ">
+                         <div style="margin-bottom: 10px;">
+                            <label for="eventName" style="display: block;">Event Name:</label>
+                            <input type="text" id="eventName" name="eventName" value="" required><br>
+                        </div>
+                        <div class="col-md-12">
+                            <small class="text-muted">
+                                 <div class="row">
+                                    <div class="col-md-4 float-left">Organised by: You</div>
+                                    <div class="col-md-4" style="text-align: center;">Event Location: </div>
+                                    <div style="margin-bottom: 10px;" class="col-md-4 float-right">
+                                        <label for="eventDate" style="display: block;">Event Date:</label>
+                                        <input id="datepicker" width="200" name="eventDate" value="" readonly>
+                                    </div>
+                            
+                                </div>
+                            </small></div><br>
+                       {{!-- {{#if event.eventImg}}
+                            <div class="image-row">
+                                {{#each event.eventImg}}
+                                   <div class=" image-container">
+                                        <img src="" class="img-fluid" alt="Event Image">
+                                    </div>
+                                {{/each}}
+                            </div>
+                        {{/if}}  --}}
+                        <div style="margin-bottom: 10px;">
+                          <label for="eventDescription" style="display: block;">Event Description:</label>
+                          <textarea id="eventDescription" name="eventDescription" rows="4" cols="50" value="" required></textarea>
+                      </div>
+                    </div>
 
-      const SHORT_NAME_ADDRESS_COMPONENT_TYPES =
-          new Set(['street_number', 'administrative_area_level_1', 'postal_code']);
+                </div>
+            </div>
+            <div style=" position: absolute; bottom: 25px; right: 6%; margin-right:30px">
+                <button class="btn btn-dark" style="">Update</button>
+            </div>
+        </div>
+      
+ </div>
+ 
+</div>
 
-      const ADDRESS_COMPONENT_TYPES_IN_FORM = [
-        'location',
-        'locality',
-        'administrative_area_level_1',
-        'postal_code',
-        'country',
-      ];
+  </form>
 
-      function getFormInputElement(componentType) {
-        return document.getElementById(`${componentType}-input`);
-      }
 
-      function fillInAddress(place) {
-        function getComponentName(componentType) {
-          for (const component of place.address_components || []) {
-            if (component.types[0] === componentType) {
-              return SHORT_NAME_ADDRESS_COMPONENT_TYPES.has(componentType) ?
-                  component.short_name :
-                  component.long_name;
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkIJSwIxhL_0K6hzTOZeDFZmeAyiu9NDI&libraries=places,marker&callback=initMap&solution_channel=GMP_QB_addressselection_v2_cABC" async defer></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+ <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans+Text:500&amp;lang=en">
+
+<script>
+  $(function() {
+        $("#datepicker").datepicker({
+            dateFormat: 'dd/mm/yy',
+            minDate:0,
+            onSelect: function(dateText) {
+                $('#datepicker').val(dateText);
             }
-          }
-          return '';
-        }
-
-        function getComponentText(componentType) {
-          return (componentType === 'location') ?
-              `${getComponentName('street_number')} ${getComponentName('route')}` :
-              getComponentName(componentType);
-        }
-
-        for (const componentType of ADDRESS_COMPONENT_TYPES_IN_FORM) {
-          getFormInputElement(componentType).value = getComponentText(componentType);
-        }
-      }
-
-      function renderAddress(place, map, marker) {
-        if (place.geometry && place.geometry.location) {
-          map.setCenter(place.geometry.location);
-          marker.position = place.geometry.location;
-          map.setZoom(15); // Set the zoom level as desired
-        } else {
-          marker.position = null;
-        }
-      }
-
-      async function initMap() {
-        const {Map} = google.maps;
-        const {AdvancedMarkerElement} = google.maps.marker;
-        const {Autocomplete} = google.maps.places;
-
-        const mapOptions = CONFIGURATION.mapOptions;
-        mapOptions.mapId = mapOptions.mapId || 'DEMO_MAP_ID';
-        mapOptions.center = mapOptions.center || {lat: 1.3521, lng: 103.8198};
-
-        const map = new Map(document.getElementById('gmp-map'), mapOptions);
-        const marker = new AdvancedMarkerElement({map});
-        const autocomplete = new Autocomplete(getFormInputElement('location'), {
-          fields: ['address_components', 'geometry', 'name'],
-          types: ['geocode'], // Use 'geocode' type for Singapore
-          componentRestrictions: {country: 'sg'} // Restrict to Singapore
         });
+    });
 
-        autocomplete.addListener('place_changed', () => {
-          const place = autocomplete.getPlace();
-          if (!place.geometry) {
-            // User entered the name of a Place that was not suggested and
-            // pressed the Enter key, or the Place Details request failed.
-            window.alert(`No details available for input: '${place.name}'`);
-            return;
-          }
-          renderAddress(place, map, marker);
-          fillInAddress(place);
-        });
-      }
-    </script>
-  </head>
-  <body>
-    <div class="card-container">
-      <div class="panel">
-        <div>
-          <img class="sb-title-icon" src="https://fonts.gstatic.com/s/i/googlematerialicons/location_pin/v5/24px.svg" alt="">
-          <span class="sb-title">Address Selection</span>
-        </div>
-        <input type="text" placeholder="Address" id="location-input"/>
-        <input type="text" placeholder="Apt, Suite, etc (optional)"/>
-        <input type="text" placeholder="City" id="locality-input"/>
-        <div class="half-input-container">
-          <input type="text" class="half-input" placeholder="State/Province" id="administrative_area_level_1-input"/>
-          <input type="text" class="half-input" placeholder="Zip/Postal code" id="postal_code-input"/>
-        </div>
-        <input type="text" placeholder="Country" id="country-input"/>
-        <button class="button-cta">Event Location:</button>
-      </div>
-      <div class="map" id="gmp-map"></div>
-    </div>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkIJSwIxhL_0K6hzTOZeDFZmeAyiu9NDI&libraries=places,marker&callback=initMap&solution_channel=GMP_QB_addressselection_v2_cABC" async defer></script>
-  </body>
-</html>
+    function previewImage(event) {
+        var input = event.target;
+        var reader = new FileReader();
+        reader.onload = function(){
+            var img = document.getElementById('imagePreview');
+            img.src = reader.result;
+            img.style.display = 'block';
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+</script>

@@ -1,0 +1,267 @@
+<style>
+    body {
+        background-color: #2c2727;
+        color: white;
+    }
+    input[type="text"], input[type="date"], textarea {
+        border-radius: 10px;
+        padding: 5px;
+        background-color: white;
+        color: #2c2727;
+        border: none;
+        margin-top: 5px;
+    }
+.panel {
+        background: white;
+        width: 300px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+      }
+
+      .half-input-container {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .half-input {
+        max-width: 120px;
+      }
+
+      .map {
+        width: 300px;
+      }
+      h2 {
+        margin: 0;
+        font-family: Roboto, sans-serif;
+      }
+
+      input {
+        height: 30px;
+      }
+
+      input {
+        border: 0;
+        border-bottom: 1px solid black;
+        font-size: 14px;
+        font-family: Roboto, sans-serif;
+        font-style: normal;
+        font-weight: normal;
+      }
+
+      input:focus::placeholder {
+        color: white;
+      }
+
+      .button-cta {
+        align-self: start;
+        background-color: #1976d2;
+        border: 0;
+        border-radius: 21px;
+        color: white;
+        cursor: pointer;
+        font-family: "Google Sans Text", sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 27px;
+        padding: 3.5px 10.5px;
+      }
+
+    button {
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+    #imagePreview {
+        width: 200px;
+        height: 200px;
+        margin-top: 10px;
+    }
+    
+      .card-container {
+        display: flex;
+        height: 500px;
+        width: 600px;
+      }
+</style>
+
+<h1 style="padding-left: 5%; padding-top: 3%;">Create Event</h1>
+<form action="/event/createEvent" method="post" id="addEvent" style="padding-left: 5%;" enctype="multipart/form-data">
+    <div style="margin-bottom: 10px;">
+        <label for="eventName" style="display: block;">Event Name:</label>
+        <input type="text" id="eventName" name="eventName" required>
+    </div>
+{{!-- <div class="card-container">
+      <div class="panel">
+        <div>
+          <img class="sb-title-icon" src="https://fonts.gstatic.com/s/i/googlematerialicons/location_pin/v5/24px.svg" alt="">
+          <span class="sb-title">Address Selection</span>
+        </div>
+        <input type="text" placeholder="Address" id="location-input" required />
+        <input type="text" placeholder="City" id="locality-input" required/>
+        <div class="half-input-container">
+          <input type="text" placeholder="Country" id="country-input"/>
+          <input type="text" class="half-input" placeholder="Zip/Postal code" id="postal_code-input" required/>
+        </div>
+      </div>
+      <div class="map" id="gmp-map"></div>
+    </div> --}}
+    <input type="text" placeholder="Location" id="eventLocation" name="eventLocation" readonly />
+    <div style="margin-bottom: 10px;">
+        <label for="eventDate" style="display: block;">Event Date:</label>
+        <input id="datepicker" width="200" name="eventDate" readonly>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <label for="eventDescription" style="display: block;">Event Description:</label>
+        <textarea id="eventDescription" name="eventDescription" rows="4" cols="50" required></textarea>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <label for="eventImage" style="display: block;">Upload Event Image:</label>
+        <input type="file" id="eventImage" name="eventImage" accept="image/*" onchange="previewImage(event)" required>
+        <img id="imagePreview" src="#" alt="Image Preview" style="display: none;">
+    </div>
+
+    <div style="margin-top: 10px;">
+        <button>Create Event</button>
+    </div>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+{{!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkIJSwIxhL_0K6hzTOZeDFZmeAyiu9NDI&libraries=places,marker&callback=initMap&solution_channel=GMP_QB_addressselection_v2_cABC" async defer></script> --}}
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+ <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans+Text:500&amp;lang=en">
+    {{!-- <script>
+      "use strict";
+
+      const CONFIGURATION = {
+        "ctaTitle": "Event Location:",
+        "mapOptions": {"center":{"lat":1.3521,"lng":103.8198},"fullscreenControl":true,"mapTypeControl":false,"streetViewControl":false,"zoom":13,"zoomControl":true,"maxZoom":22,"mapId":""},
+        "mapsApiKey": "AIzaSyAkIJSwIxhL_0K6hzTOZeDFZmeAyiu9NDI",
+        "capabilities": {"addressAutocompleteControl":true,"mapDisplayControl":true,"ctaControl":true}
+      };
+
+      const SHORT_NAME_ADDRESS_COMPONENT_TYPES =
+          new Set(['street_number', 'postal_code']);
+
+      const ADDRESS_COMPONENT_TYPES_IN_FORM = [
+        'location',
+        'locality',
+        'postal_code',
+        'country',
+      ];
+
+      function getFormInputElement(componentType) {
+        return document.getElementById(`${componentType}-input`);
+      }
+
+      function fillInAddress(place) {
+        function getComponentName(componentType) {
+          for (const component of place.address_components || []) {
+            if (component.types[0] === componentType) {
+              return SHORT_NAME_ADDRESS_COMPONENT_TYPES.has(componentType) ?
+                  component.short_name :
+                  component.long_name;
+            }
+          }
+          return '';
+        }
+
+        function getComponentText(componentType) {
+          return (componentType === 'location') ?
+              `${getComponentName('street_number')} ${getComponentName('route')}` :
+              getComponentName(componentType);
+        }
+
+        for (const componentType of ADDRESS_COMPONENT_TYPES_IN_FORM) {
+          getFormInputElement(componentType).value = getComponentText(componentType);
+        }
+      }
+
+      function renderAddress(place, map, marker) {
+        if (place.geometry && place.geometry.location) {
+          map.setCenter(place.geometry.location);
+          marker.position = place.geometry.location;
+          map.setZoom(15); // Set the zoom level as desired
+        } else {
+          marker.position = null;
+        }
+      }
+
+      async function initMap() {
+        const {Map} = google.maps;
+        const {AdvancedMarkerElement} = google.maps.marker;
+        const {Autocomplete} = google.maps.places;
+
+        const mapOptions = CONFIGURATION.mapOptions;
+        mapOptions.mapId = mapOptions.mapId || 'DEMO_MAP_ID';
+        mapOptions.center = mapOptions.center || {lat: 1.3521, lng: 103.8198};
+
+        const map = new Map(document.getElementById('gmp-map'), mapOptions);
+        const marker = new AdvancedMarkerElement({map});
+        const autocomplete = new Autocomplete(getFormInputElement('location'), {
+          fields: ['address_components', 'geometry', 'name'],
+          types: ['geocode'], // Use 'geocode' type for Singapore
+          componentRestrictions: {country: 'sg'} // Restrict to Singapore
+        });
+
+        autocomplete.addListener('place_changed', () => {
+          const place = autocomplete.getPlace();
+          console.log(place + "lmao")
+          if (!place.geometry) {
+            // User entered the name of a Place that was not suggested and
+            // pressed the Enter key, or the Place Details request failed.
+            window.alert(`No details available for input: '${place.name}'`);
+            return;
+          }
+          renderAddress(place, map, marker);
+          fillInAddress(place);
+          retrieveAddress();
+        });
+      }
+
+      function retrieveAddress() {
+        const address = {
+          location: document.getElementById('location-input').value,
+          locality: document.getElementById('locality-input').value,
+          postalCode: document.getElementById('postal_code-input').value,
+          country: document.getElementById('country-input').value
+        };
+         const formattedAddress = `${address.location}, ${address.locality} ${address.postalCode}, ${address.country}`;
+         console.log(address);
+         document.getElementById('eventLocation').value = formattedAddress;
+      }
+    </script> --}}
+
+<script>
+    $(function() {
+        $("#datepicker").datepicker({
+            dateFormat: 'dd/mm/yy',
+            minDate:0,
+            onSelect: function(dateText) {
+                $('#datepicker').val(dateText);
+            }
+        });
+    });
+
+    function previewImage(event) {
+        var input = event.target;
+        var reader = new FileReader();
+        reader.onload = function(){
+            var img = document.getElementById('imagePreview');
+            img.src = reader.result;
+            img.style.display = 'block';
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+
+
+</script>

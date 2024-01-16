@@ -22,7 +22,7 @@ const {formatDate,radioCheck} = require('./helpers/hbs');
 const healthappDB = require('./config/DBConnection');
 const authenticate = require('./config/passport');
 const methodOverride = require('method-override');
-
+const path = require('path')
 // Connects to MySQL database
 healthappDB.setUpDB(false); // To set up database with new tables set (true)
 // Passport Config
@@ -52,6 +52,7 @@ app.use(cookieParser());
 
 // Method override middleware to use other HTTP methods such as PUT and DELETE
 app.use(methodOverride('_method'));
+app.use(express.static(path.join(__dirname, 'public')))
 
 //configuration for use of session
 const options = {

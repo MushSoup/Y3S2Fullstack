@@ -33,15 +33,17 @@
         border-radius: 5px;
     }
 </style>
-
+<form action="/event/saveEvent" method="post" id="saveEvent" >
 <div class="container">
  <div class="row">
+    
         <div class="col-md-11 mb-4" style="margin:auto; padding: 10px; position: relative;">
             <div class="card" style="height: 750px;">
                 <div class="row no-gutters">
                     {{#if event.eventImg}}
                             <div class=" image-container">
-                                <img src="data:image/png;base64,{{event.eventImg}}" class="img-fluid" alt="Event Image">
+                                <input type="file" id="eventImage" name="eventImage" accept="image/*" onchange="previewImage(event)" style="display: none;" required>
+                                <img src="data:image/png;base64,{{event.eventImg}}" id="imagePreview" class="img-fluid" alt="Event Image" onclick="document.getElementById('eventImage').click();" style="cursor: pointer;">
                             </div>
                         {{/if}}
                     <div class="card-body ">
@@ -56,7 +58,7 @@
                                     <div class="col-md-4" style="text-align: center;">Event Location: {{event.eventLocation}}</div>
                                     <div style="margin-bottom: 10px;" class="col-md-4 float-right">
                                         <label for="eventDate" style="display: block;">Event Date:</label>
-                                        <input id="datepicker" width="200" name="eventDate" value="{{formatDate event.eventDate 'DD/MM/YYYY'}}" readonly>
+                                        <input id="datepicker" width="200" name="eventDate" value="{{formatDate event.eventDate 'DD MMM YYYY'}}" readonly>
                                     </div>
                             
                                 </div>
@@ -72,7 +74,7 @@
                         {{/if}}  --}}
                         <div style="margin-bottom: 10px;">
         <label for="eventDescription" style="display: block;">Event Description:</label>
-        <textarea id="eventDescription" name="eventDescription" rows="4" cols="50" value="{{event.eventDesc}}" vrequired></textarea>
+        <textarea id="eventDescription" name="eventDescription" rows="4" cols="50" value="" required>{{event.eventDesc}}</textarea>
     </div>
                         <p>{{event.eventDesc}}</p>
                         {{!-- put google maps based on location here --}}
@@ -102,11 +104,25 @@
 
                 </div>
             </div>
+            <div style=" position: absolute; bottom: 25px; right: 6%; margin-right:30px">
+                <button class="btn btn-dark" style="">Update</button>
+            </div>
         </div>
+      
  </div>
+ 
 </div>
 
+  </form>
 
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkIJSwIxhL_0K6hzTOZeDFZmeAyiu9NDI&libraries=places,marker&callback=initMap&solution_channel=GMP_QB_addressselection_v2_cABC" async defer></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+ <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans+Text:500&amp;lang=en">
 
 <script>
   $(function() {
@@ -118,4 +134,15 @@
             }
         });
     });
+
+    function previewImage(event) {
+        var input = event.target;
+        var reader = new FileReader();
+        reader.onload = function(){
+            var img = document.getElementById('imagePreview');
+            img.src = reader.result;
+            img.style.display = 'block';
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
 </script>
