@@ -35,7 +35,7 @@
 </style>
 
 <h1 style="padding-left: 5%; padding-top: 3%;">Create Event</h1>
-<form action="/event/createEvent" method="post" id="addEvent" >
+<form action="/event/createEvent" method="post" id="addEvent"  enctype="multipart/form-data">
 <div class="container">
  <div class="row">
     
@@ -44,7 +44,7 @@
                 <div class="row no-gutters">
                             <div class=" image-container">
                                 <input type="file" id="eventImage" name="eventImage" accept="image/*" onchange="previewImage(event)" style="display: none;" required>
-                                <img src="/img/uploadPlaceholder.png" id="imagePreview" class="img-fluid" alt="Event Image" onclick="document.getElementById('eventImage').click();" style="cursor: pointer; display:block;">
+                                <img src="/img/uploadPlaceholder.png" id="imagePreview" class="img-fluid" alt="Event Image" onclick="document.getElementById('eventImage').click();" style="cursor: pointer;">
                             </div>
                     <div class="card-body ">
                          <div style="margin-bottom: 10px;">
@@ -74,7 +74,7 @@
                         {{/if}}  --}}
                         <div style="margin-bottom: 10px;">
                           <label for="eventDescription" style="display: block;">Event Description:</label>
-                          <textarea id="eventDescription" name="eventDescription" rows="4" cols="50" value="" required></textarea>
+                          <textarea id="eventDescription" name="eventDescription" rows="4" cols="200" value="" required></textarea>
                       </div>
                     </div>
 
@@ -114,11 +114,16 @@
     function previewImage(event) {
         var input = event.target;
         var reader = new FileReader();
+        var file = input.files[0]; //get selected file
+        if(file){
         reader.onload = function(){
             var img = document.getElementById('imagePreview');
             img.src = reader.result;
             img.style.display = 'block';
         };
         reader.readAsDataURL(input.files[0]);
+        } else{
+            img.src = "/img/uploadPlaceholder.png"
+        }
     }
 </script>
