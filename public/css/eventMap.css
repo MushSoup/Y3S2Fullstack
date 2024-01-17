@@ -1,0 +1,42 @@
+.panel {
+    background: white;
+    width: 300px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+  .half-input-container {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .half-input {
+    max-width: 100px;
+  }
+
+  .map {
+    width: 300px;
+  }
+  input {
+    height: 30px;
+  }
+
+  input {
+    border: 1;
+    border-bottom: 1px solid black;
+    font-size: 14px;
+    font-family: Roboto, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+  }
+
+  input:focus::placeholder {
+    color: white;
+  }
+  .card-container {
+    display: flex;
+    height: 500px;
+    width: 600px;
+  }

@@ -5,8 +5,8 @@
     }
 
 .image-container {
-    width: 150px; /* Set the width of the image */
-    height: 150px; /* Set the height of the image */
+    width: 200px; /* Set the width of the image */
+    height: 200px; /* Set the height of the image */
     overflow: hidden; /* Crop the image */
    margin: 25px 0px 25px 25px;
   }
@@ -39,4 +39,13 @@
       
       textarea{
         width: 98%;
+      }
+
+      .expand::before{
+        content: "";
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
       }

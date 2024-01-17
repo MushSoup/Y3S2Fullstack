@@ -36,10 +36,34 @@
                                 {{/each}}
                             </div>
                         {{/if}}  --}}
+                        <div id="imageUploadContainer">
+                            <div class="image-row">
+                                <div class="thumbnail">
+                                    <img src="/img/uploadPlaceholder.png" alt="Thumbnail" class="thumbnail" style="height: 200px;" id="thumbnail" onchange="previewImage(event)">
+                                </div>
+                            
+                            </div>
+                        </div>
                         <div style="margin-bottom: 10px;">
                           <label for="eventDescription" style="display: block;">Event Description:</label>
                           <textarea id="eventDescription" name="eventDescription" rows="4" cols="" value="" required></textarea>
                       </div>
+
+                      <div class="card-container center">
+                        <div class="panel">
+                            <div>
+                            <img class="sb-title-icon" src="https://fonts.gstatic.com/s/i/googlematerialicons/location_pin/v5/24px.svg" alt="">
+                            <span class="sb-title">Address Selection</span>
+                            </div>
+                            <input type="text" placeholder="Address" id="location-input" required />
+                            <input type="text" placeholder="City" id="locality-input" required/>
+                            <div class="half-input-container">
+                            <input type="text" placeholder="Country" id="country-input"/>
+                            <input type="text" class="half-input" placeholder="Zip/Postal code" id="postal_code-input" required/>
+                            </div>
+                        </div>
+                        <div class="map" id="gmp-map"></div>
+                        </div>
                     </div>
 
                 </div>
@@ -58,35 +82,16 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkIJSwIxhL_0K6hzTOZeDFZmeAyiu9NDI&libraries=places,marker&callback=initMap&solution_channel=GMP_QB_addressselection_v2_cABC" async defer></script>
+{{!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkIJSwIxhL_0K6hzTOZeDFZmeAyiu9NDI&libraries=places,marker&callback=initMap&solution_channel=GMP_QB_addressselection_v2_cABC" async defer></script> --}}
+
+
+{{!-- <script src="/js/googleMaps.js" async defer></script> --}}
+<script src="/js/eventInput.js"></script>
+
+
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans+Text:500&amp;lang=en">
+
+
 <link rel="stylesheet" href="/css/eventCard.css">
-
-<script>
-  $(function() {
-        $("#datepicker").datepicker({
-            dateFormat: 'dd/mm/yy',
-            minDate:0,
-            onSelect: function(dateText) {
-                $('#datepicker').val(dateText);
-            }
-        });
-    });
-
-    function previewImage(event) {
-        var input = event.target;
-        var reader = new FileReader();
-        var file = input.files[0]; //get selected file
-        if(file){
-        reader.onload = function(){
-            var img = document.getElementById('imagePreview');
-            img.src = reader.result;
-            img.style.display = 'block';
-        };
-        reader.readAsDataURL(input.files[0]);
-        } else{
-            img.src = "/img/uploadPlaceholder.png"
-        }
-    }
-</script>
+<link rel="stylesheet" href="/css/eventMap.css">

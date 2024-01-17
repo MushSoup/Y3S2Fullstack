@@ -84,29 +84,12 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkIJSwIxhL_0K6hzTOZeDFZmeAyiu9NDI&libraries=places,marker&callback=initMap&solution_channel=GMP_QB_addressselection_v2_cABC" async defer></script>
+
+<script src="/js/eventInput.js"></script>
+
+
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans+Text:500&amp;lang=en">
+
+
 <link rel="stylesheet" href="/css/eventCard.css">
-
-<script>
-  $(function() {
-        $("#datepicker").datepicker({
-            dateFormat: 'dd/mm/yy',
-            minDate:0,
-            onSelect: function(dateText) {
-                $('#datepicker').val(dateText);
-            }
-        });
-    });
-
-    function previewImage(event) {
-        var input = event.target;
-        var reader = new FileReader();
-        reader.onload = function(){
-            var img = document.getElementById('imagePreview');
-            img.src = reader.result;
-            img.style.display = 'block';
-        };
-        reader.readAsDataURL(input.files[0]);
-    }
-</script>

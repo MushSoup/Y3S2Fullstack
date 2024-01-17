@@ -95,7 +95,7 @@
         <label for="eventName" style="display: block;">Event Name:</label>
         <input type="text" id="eventName" name="eventName" required>
     </div>
-{{!-- <div class="card-container">
+<div class="card-container">
       <div class="panel">
         <div>
           <img class="sb-title-icon" src="https://fonts.gstatic.com/s/i/googlematerialicons/location_pin/v5/24px.svg" alt="">
@@ -109,7 +109,7 @@
         </div>
       </div>
       <div class="map" id="gmp-map"></div>
-    </div> --}}
+    </div>
     <input type="text" placeholder="Location" id="eventLocation" name="eventLocation" readonly />
     <div style="margin-bottom: 10px;">
         <label for="eventDate" style="display: block;">Event Date:</label>
@@ -139,7 +139,7 @@
  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans+Text:500&amp;lang=en">
-    {{!-- <script>
+    <script>
       "use strict";
 
       const CONFIGURATION = {
@@ -239,7 +239,7 @@
          console.log(address);
          document.getElementById('eventLocation').value = formattedAddress;
       }
-    </script> --}}
+    </script>
 
 <script>
     $(function() {

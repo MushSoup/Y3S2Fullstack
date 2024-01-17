@@ -41,7 +41,7 @@
                         </div>
                         {{!-- put countdown timer based on date here --}}
                         <div class="countdown-section">
-                        <div id="countdown"></div>
+                        <div id="countdown" class="center"></div>
                             <h1 id="eventStart">Event will start in</h1>
                                 <div class="countdown-timer">
                                     <div class="black-box">
@@ -71,6 +71,7 @@
 
 <link rel="stylesheet" href="/css/eventCard.css">
 <link rel="stylesheet" href="/css/eventDetails.css">
+<link rel="stylesheet" href="/css/eventMain.css">
 
 <script>
 const encodedAddress = encodeURIComponent("{{event.eventLocation}}");
@@ -106,7 +107,4 @@ iframe.src = embedUrl;
         document.getElementById("minutes").innerText = minutes;
         document.getElementById("seconds").innerText = seconds;
     } 1000});
-
-
-
 </script>

@@ -42,7 +42,7 @@ router.get('/showCreateEvent', (req, res) => {
 });
 
 // Adds new event
-router.post('/createEvent', upload.single('eventImage'), (req, res) => {
+router.post('/createEvent', upload.array('eventImages', 5), (req, res) => {
     let eventName = req.body.eventName;
     let eventDesc = req.body.eventDescription;
     let eventLocation = req.body.eventLocation;
@@ -50,7 +50,7 @@ router.post('/createEvent', upload.single('eventImage'), (req, res) => {
     let eventCreator = req.user.username;
 
     // Access the uploaded file from req.file
-    let eventImg = req.file.buffer; // Assuming the field name in the form is "eventImage"
+    let eventImages = req.files.map(file => ({ image: file.buffer }));
 
     // Multi-value components return array of strings or undefined
     Event.create({
@@ -59,7 +59,9 @@ router.post('/createEvent', upload.single('eventImage'), (req, res) => {
         eventDesc,
         eventLocation,
         eventCreator,
-        eventImg // Save the image data to the database
+        eventImages:eventImages // Save the image data to the database
+    },{
+        include: eventImages
     }).then((event) => {
         res.redirect('/event/readEvent');
     })
