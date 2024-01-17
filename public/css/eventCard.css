@@ -1,0 +1,42 @@
+.center{
+    margin: auto;
+    width: 100%;
+    padding: 10px;
+    }
+
+.image-container {
+    width: 150px; /* Set the width of the image */
+    height: 150px; /* Set the height of the image */
+    overflow: hidden; /* Crop the image */
+   margin: 25px 0px 25px 25px;
+  }
+  
+  .image-container img {
+    width: 100%; /* Make the image fill the container */
+    height: 100%; /* Maintain aspect ratio */
+    object-fit: cover; /* Crop the image to fit */
+  }
+  
+  .card{
+      width: auto;
+  }   
+  
+      input[type="text"], input[type="date"], textarea {
+          border-radius: 10px;
+          padding: 5px;
+          background-color: white;
+          color: #2c2727;
+          margin-top: 5px;
+      }
+      button {
+          padding: 10px 20px;
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          cursor: pointer;
+          border-radius: 5px;
+      }
+      
+      textarea{
+        width: 98%;
+      }

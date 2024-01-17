@@ -1,52 +1,16 @@
-<style>
-.image-container {
-  width: 200px; /* Set the width of the image */
-  height: 200px; /* Set the height of the image */
-  overflow: hidden; /* Crop the image */
- margin: 25px 0px 25px 25px;
-}
-
-.image-container img {
-  width: 100%; /* Make the image fill the container */
-  height: 100%; /* Maintain aspect ratio */
-  object-fit: cover; /* Crop the image to fit */
-}
-
-.card{
-    height: 250px;
-    width: auto;
-}   
-
-    input[type="text"], input[type="date"], textarea {
-        border-radius: 10px;
-        padding: 5px;
-        background-color: white;
-        color: #2c2727;
-        margin-top: 5px;
-    }
-    button {
-        padding: 10px 20px;
-        background-color: #4CAF50;
-        color: white;
-        border: none;
-        cursor: pointer;
-        border-radius: 5px;
-    }
-</style>
-
 <h1 style="padding-left: 5%; padding-top: 3%;">Create Event</h1>
 <form action="/event/createEvent" method="post" id="addEvent"  enctype="multipart/form-data">
 <div class="container">
  <div class="row">
     
-        <div class="col-md-11 mb-4" style="margin:auto; padding: 10px; position: relative;">
-            <div class="card" style="height: 750px;">
+        <div class="col-md-11 mb-4 center">
+            <div class="card">
                 <div class="row no-gutters">
                             <div class=" image-container">
                                 <input type="file" id="eventImage" name="eventImage" accept="image/*" onchange="previewImage(event)" style="display: none;" required>
                                 <img src="/img/uploadPlaceholder.png" id="imagePreview" class="img-fluid" alt="Event Image" onclick="document.getElementById('eventImage').click();" style="cursor: pointer;">
                             </div>
-                    <div class="card-body ">
+                    <div class="card-body">
                          <div style="margin-bottom: 10px;">
                             <label for="eventName" style="display: block;">Event Name:</label>
                             <input type="text" id="eventName" name="eventName" value="" required><br>
@@ -56,8 +20,8 @@
                                  <div class="row">
                                     <div class="col-md-4 float-left">Organised by: You</div>
                                     <div class="col-md-4" style="text-align: center;">Event Location: </div>
-                                    <div style="margin-bottom: 10px;" class="col-md-4 float-right">
-                                        <label for="eventDate" style="display: block;">Event Date:</label>
+                                    <div style="" class="col-md-4 float-right">
+                                        <label for="eventDate" style="">Event Date:</label>
                                         <input id="datepicker" width="200" name="eventDate" value="" readonly>
                                     </div>
                             
@@ -74,7 +38,7 @@
                         {{/if}}  --}}
                         <div style="margin-bottom: 10px;">
                           <label for="eventDescription" style="display: block;">Event Description:</label>
-                          <textarea id="eventDescription" name="eventDescription" rows="4" cols="200" value="" required></textarea>
+                          <textarea id="eventDescription" name="eventDescription" rows="4" cols="" value="" required></textarea>
                       </div>
                     </div>
 
@@ -96,9 +60,8 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkIJSwIxhL_0K6hzTOZeDFZmeAyiu9NDI&libraries=places,marker&callback=initMap&solution_channel=GMP_QB_addressselection_v2_cABC" async defer></script>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans+Text:500&amp;lang=en">
+<link rel="stylesheet" href="/css/eventCard.css">
 
 <script>
   $(function() {
