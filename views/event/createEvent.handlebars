@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="row no-gutters">
                             <div class=" image-container">
-                                <input type="file" id="eventImage" name="eventImage" accept="image/*" onchange="previewImage(event)" style="display: none;" required>
+                                <input type="file" id="eventImage" name="eventImage" accept="image/*" onchange="previewImage(event); addNew()" style="display: none;" required>
                                 <img src="/img/uploadPlaceholder.png" id="imagePreview" class="img-fluid" alt="Event Image" onclick="document.getElementById('eventImage').click();" style="cursor: pointer;">
                             </div>
                     <div class="card-body">
@@ -27,15 +27,7 @@
                             
                                 </div>
                             </small></div><br>
-                       {{!-- {{#if event.eventImg}}
-                            <div class="image-row">
-                                {{#each event.eventImg}}
-                                   <div class=" image-container">
-                                        <img src="" class="img-fluid" alt="Event Image">
-                                    </div>
-                                {{/each}}
-                            </div>
-                        {{/if}}  --}}
+                      
                         <div id="imageUploadContainer">
                             <div class="image-row">
                                 <div class="thumbnail">
