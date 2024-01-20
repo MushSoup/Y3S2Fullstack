@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../config/DBConfig');
+const event = require('../models/Event');
 
 const EventImage = db.define('event_images', {
     id: {
@@ -7,7 +8,7 @@ const EventImage = db.define('event_images', {
         primaryKey: true,
         autoIncrement: true
       },
-      eventID: {
+      eventId: {
         type: Sequelize.INTEGER,
         references: {
             model: event, // Reference to the Event model
@@ -15,10 +16,10 @@ const EventImage = db.define('event_images', {
         }
     },
     image: {
-        type: Sequelize.BLOB('long') // Define the eventImg column as a BLOB
+        type: Sequelize.BLOB('long') // Define the image column as a BLOB
     }},
     {
-        tableName: 'event' // Specify the custom table name
+        tableName: 'event_images' // Specify the custom table name
     });
 
-module.exports = Event;
+module.exports = EventImage;

@@ -1,6 +1,7 @@
 const express = require('express');
 const User = require('../models/User');
 const Attendee = require('../models/Attendee');
+const EventImage = require('../models/EventImage')
 const router = express.Router();
 const bodyParser = require("body-parser");
 const moment = require('moment');
@@ -59,9 +60,9 @@ router.post('/createEvent', upload.array('eventImages', 5), (req, res) => {
         eventDesc,
         eventLocation,
         eventCreator,
-        eventImages:eventImages // Save the image data to the database
+        images: eventImages
     },{
-        include: eventImages
+        include: 'images'
     }).then((event) => {
         res.redirect('/event/readEvent');
     })

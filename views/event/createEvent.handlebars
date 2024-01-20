@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="row no-gutters">
                             <div class=" image-container">
-                                <input type="file" id="eventImage" name="eventImage" accept="image/*" onchange="previewImage(event); addNew()" style="display: none;" required>
+                                <input type="file" id="eventImage" name="eventImages" accept="image/*" onchange="previewImage(event);" class="hidden-input" required>
                                 <img src="/img/uploadPlaceholder.png" id="imagePreview" class="img-fluid" alt="Event Image" onclick="document.getElementById('eventImage').click();" style="cursor: pointer;">
                             </div>
                     <div class="card-body">
@@ -22,26 +22,39 @@
                                     <div class="col-md-4" style="text-align: center;">Event Location: </div>
                                     <div style="" class="col-md-4 float-right">
                                         <label for="eventDate" style="">Event Date:</label>
-                                        <input id="datepicker" width="200" name="eventDate" value="" readonly>
+                                        <input id="datepicker" width="200" name="eventDate" readonly>
                                     </div>
                             
                                 </div>
                             </small></div><br>
                       
-                        <div id="imageUploadContainer">
-                            <div class="image-row">
+                        <div id="imageUploadContainer" class="row" data-ride="carousel" style="">
+                            <div class="image-row" id="image-row">
                                 <div class="thumbnail">
-                                    <img src="/img/uploadPlaceholder.png" alt="Thumbnail" class="thumbnail" style="height: 200px;" id="thumbnail" onchange="previewImage(event)">
-                                </div>
-                            
+                                    <input type="file" id="eventImages" name="eventImages" accept="image/*" onchange="previewImage(event);" class="hidden-input" required>
+                                    <img src="/img/uploadPlaceholder.png" alt="Thumbnail" id="thumbnail" class="img-row" onclick="document.getElementById('eventImage').click();" style="cursor: pointer; height: 250px;">
+                                </div>   
                             </div>
+                            {{!-- <a class="carousel-control-prev" href="#SimpleCarouselExample" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                </a>
+                                <a class="carousel-control-next" href="#SimpleCarouselExample" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                </a> --}}
+                                
                         </div>
+                        <div>
+                                    <div style="">
+                                    <button type="button" onclick="deleteImage()">Delete</button>
+                                    <button type="button" onclick="addNewImage()">Add</button>
+                                    </div>
+                                </div>
                         <div style="margin-bottom: 10px;">
                           <label for="eventDescription" style="display: block;">Event Description:</label>
                           <textarea id="eventDescription" name="eventDescription" rows="4" cols="" value="" required></textarea>
                       </div>
 
-                      <div class="card-container center">
+                      {{!-- <div class="card-container center">
                         <div class="panel">
                             <div>
                             <img class="sb-title-icon" src="https://fonts.gstatic.com/s/i/googlematerialicons/location_pin/v5/24px.svg" alt="">
@@ -55,13 +68,13 @@
                             </div>
                         </div>
                         <div class="map" id="gmp-map"></div>
-                        </div>
+                        </div> --}}
                     </div>
 
                 </div>
             </div>
             <div style=" position: absolute; bottom: 25px; right: 6%; margin-right:30px">
-                <button class="btn btn-dark" style="">Update</button>
+                <button class="btn btn-dark" type="submit">Create Event</button>
             </div>
         </div>
       
