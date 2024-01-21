@@ -7,7 +7,8 @@ const bodyParser = require("body-parser");
 const moment = require('moment');
 const Event = require('../models/Event');
 const cookieParser = require('cookie-parser');
-const multer = require('multer'); // Import multer
+const multer = require('multer');
+const ensureAuthenticated = require('../helpers/auth')
 
 
 router.use(cookieParser());
@@ -23,32 +24,26 @@ router.get('/readEvent', (req, res) => {
         order: [
             ['eventName', 'ASC']
         ],
-        include: [{
-            model: EventImage,
-            as: 'images', // Replace 'Images' with the actual alias used in your application
-            attributes: ['image'],
-            order: [['id', 'ASC']],
-            limit: 1
-        }],
         raw: true
     }).then((event) => {
         event.forEach(event => {
             if (event.eventImg) {
                 event.eventImg = event.eventImg.toString('base64');
             }
-            if (event.images) {
-                event.eventImg = event.images[0].image.toString('base64');
-            }
         });
-
+       
+        const userEvents = event.filter(event => event.eventCreator === req.user.username);
+        const otherEvents = event.filter(event => event.eventCreator !== req.user.username || !event.eventCreator);
+        
+        
         res.render('event/readEvent', {
             event: event,
+            userEvents: userEvents,
+            otherEvents: otherEvents
         });
     })
         .catch(err => console.log(err));
 });
-
-
 
 //Create Event
 router.get('/showCreateEvent', (req, res) => {
@@ -56,7 +51,7 @@ router.get('/showCreateEvent', (req, res) => {
 });
 
 // Adds new event
-router.post('/createEvent', upload.array('eventImages', 5), (req, res) => {
+router.post('/createEvent', ensureAuthenticated , upload.array('eventImages', 5), (req, res) => {
     let eventName = req.body.eventName;
     let eventDesc = req.body.eventDescription;
     let eventLocation = req.body.eventLocation;
@@ -66,6 +61,9 @@ router.post('/createEvent', upload.array('eventImages', 5), (req, res) => {
     // Access the uploaded file from req.file
     let eventImages = req.files.map(file => ({ image: file.buffer }));
 
+    let eventImg =  eventImages[0].image;
+    let remainingImages = eventImages.slice(1);
+
     // Multi-value components return array of strings or undefined
     Event.create({
         eventName,
@@ -73,7 +71,8 @@ router.post('/createEvent', upload.array('eventImages', 5), (req, res) => {
         eventDesc,
         eventLocation,
         eventCreator,
-        images: eventImages
+        eventImg,
+        images: remainingImages
     },{
         include: 'images'
     }).then((event) => {
@@ -167,40 +166,178 @@ else{
 }
 });
 
-
 router.get('/expandedEvent/:eventID', (req, res) => {
     console.log("In edit, id=",req.params.eventID)
     Event.findOne({
         where:{
             eventID: req.params.eventID
-        },raw:true,
+        }, 
+        
+        raw:true,
         nest: true
     }).then((event) =>{
         if (event.eventImg) {
             event.eventImg = event.eventImg.toString('base64');
         }
-        res.render('event/expandedEvent',{
-            event: event,
-        })
+        let viewAttendee = event.eventCreator === req.user.username;
+
+
+        EventImage.findAll({
+            where: {
+                eventId: req.params.eventID
+            }
+
+        }).then((images) => 
+        {
+            event.imageSet = images.map(img => img.image.toString('base64'));
+
+            res.render('event/expandedEvent', {
+                event: event,
+                viewAttendee: viewAttendee,
+                eventID:event.eventID
+            });
+        }).catch(err => console.log(err));
     }).catch(err => console.log(err));
 });
 
-
-router.get('/editEvent/:eventID', (req, res) => {
+router.get('/editEvent/:eventID',  ensureAuthenticated ,(req, res) => {
     console.log("In edit, id=",req.params.eventID)
     Event.findOne({
         where:{
             eventID: req.params.eventID
-        },raw:true,
+        }, 
+        
+        raw:true,
         nest: true
     }).then((event) =>{
+        if(req.user.id === video.userId)
+{
         if (event.eventImg) {
             event.eventImg = event.eventImg.toString('base64');
         }
-        res.render('event/editEvent',{
-            event: event,
-        })
+        EventImage.findAll({
+            where: {
+                eventId: req.params.eventID
+            }
+        }).then((images) => {
+            event.imageSet = images.map(img => img.image.toString('base64'));
+            res.render('event/editEvent', {
+                event: event,
+            });
+        }).catch(err => console.log(err));
+    }else
+    {
+    console.log("Unauthorised access to video")
+    req.flash('error_msg', "Unauthorised access to video");
+    res.redirect('/logout');
+    }
     }).catch(err => console.log(err));
 });
 
+router.put('/saveEvent/:eventID', upload.array('eventImages', 5),  ensureAuthenticated ,(req, res) => {
+    let eventName = req.body.eventName;
+    let eventDesc = req.body.eventDescription;
+    let eventLocation = req.body.eventLocation;
+    let eventDate = moment(req.body.eventDate, 'DD/MM/YYYY');
+    let eventCreator = req.user.username;
+
+    if (req.files && req.files.length > 0) {
+        let eventImages = req.files.map(file => ({ image: file.buffer }));
+
+        let eventImg = eventImages[0].image;
+        let remainingImages = eventImages.slice(1);
+        Event.update({
+            eventName,
+            eventDate,
+            eventDesc,
+            eventLocation,
+            eventCreator,
+            eventImg,
+            images: remainingImages
+        },{
+            where: {
+                eventID: req.params.eventID
+            },  include: 'images'
+        }).then((event) => {
+            res.redirect('/event/readEvent');
+        }).catch(err => console.log(err));
+    } else {
+        // If no new images are uploaded, only update the event details
+        Event.update({
+            eventName,
+            eventDate,
+            eventDesc,
+            eventLocation,
+            eventCreator
+        }, {
+            where: {
+                eventID: req.params.eventID
+            }
+
+    }).then((event) => {
+        res.redirect('/event/readEvent');
+    }).catch(err => console.log(err))
+}
+});
+
+router.get('/deleteEvent/:eventID', ensureAuthenticated, (req, res)=>{
+    Event.findOne({
+        where:{
+            eventID: req.params.eventID
+        }
+    }).then((event) => {
+        let eventName = event.eventName;
+        if (req.user.username === event.eventCreator) {
+            EventImage.destroy({
+                where:{
+                    eventId: req.params.eventID
+                }
+            }).then(()=>{
+                Attendee.destroy({
+                    where:{
+                        eventID: req.params.eventID
+                    }
+                }).then(()=>{
+            Event.destroy({
+                where:{
+                    eventID : req.params.eventID
+                }
+            }).then(()=>{
+                console.log("Event Deleted!");
+                res.redirect('/event/readEvent');
+            });
+        });
+        });
+        }else{
+            console.log("Unauthorised");
+            req.flash('error', "Unauthorised access to video");
+            res.locals.message = req.flash();
+            res.redirect('/logout')
+        }
+        }).catch(err => console.log(err));
+    });
+
+router.get('/viewAttendee/:eventID', ensureAuthenticated, (req, res)=>{
+    Attendee.findAll({
+        where: {
+            eventID: req.params.eventID
+        },
+        order: [
+            ['aID', 'ASC']
+        ],
+        raw: true,
+        nest: true
+    }).then((attendees) => {
+        Event.findOne({ // Use findOne instead of findAll to get a single event
+            where: {
+                eventID: req.params.eventID
+            }
+        }).then((event) => {
+            res.render('event/viewAttendee', {
+                attendees: attendees,
+                eventName: event.eventName, // Pass the eventName to the view
+            });
+    }).catch(err => console.log(err))
+}).catch(err => console.log(err))
+});
 module.exports = router;

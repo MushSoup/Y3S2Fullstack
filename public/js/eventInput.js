@@ -1,3 +1,4 @@
+let i = 0
 $(function() {
     $("#datepicker").datepicker({
         dateFormat: 'dd/mm/yy',
@@ -9,7 +10,7 @@ $(function() {
 });
 
 
-let i = 0
+
 function previewImage(event) {
     var input = event.target;
     var reader = new FileReader();
@@ -71,4 +72,10 @@ function deleteImage(){
     var element = document.getElementById('imageInRow' + i);
     element.remove();
  }
+}
+
+function idExists(imageLength){
+    // Access the counter value from the global variable
+    i = imageLength;
+    alert(i);
 }

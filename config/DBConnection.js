@@ -18,12 +18,12 @@ const setUpDB = (drop) => {
               in video.
             */
             user.hasMany(video);
-            user.hasMany(attendee);
-            attendee.belongsTo(user);
-            event.hasMany(attendee);
-            attendee.belongsTo(event);
-            event.hasMany(EventImage, { as: 'images',  foreignKey: 'eventID'  });
-            EventImage.belongsTo(event);
+            user.hasMany(attendee, {foreignKey: 'userID'});
+            attendee.belongsTo(user, {foreignKey: 'userID'});
+            event.hasMany(attendee, {foreignKey: 'eventID'});
+            attendee.belongsTo(event, {foreignKey: 'eventID'});
+            event.hasMany(EventImage, { as: 'images',  foreignKey: 'eventId'  });
+            EventImage.belongsTo(event, { foreignKey: 'eventId' });
             mySQLDB.sync({ // Creates table if none exists
                 force: drop
             }).then(() => {

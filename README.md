@@ -2,10 +2,10 @@
 Fullstack project for Y3 semester 2
 
 ### Changes to be made
-* Change the create event page to be similar to the expanded event page preview type
-* finish up the practical, learn how to grab information by id/name (selected event)
-* live countdown
-* forum
+* Make it such that after registering, can cancel (aka delete)
+* fix the image submission issue if possible
+* Allow the editing of registered information
+* forum (urgent ig?)
 * :)
 
 ### Events

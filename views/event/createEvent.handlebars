@@ -51,7 +51,7 @@
                           <textarea id="eventDescription" name="eventDescription" rows="4" cols="" value="" required></textarea>
                       </div>
 
-                      {{!-- <div class="card-container center">
+                      <div class="card-container center">
                         <div class="panel">
                             <div>
                             <img class="sb-title-icon" src="https://fonts.gstatic.com/s/i/googlematerialicons/location_pin/v5/24px.svg" alt="">
@@ -65,7 +65,8 @@
                             </div>
                         </div>
                         <div class="map" id="gmp-map"></div>
-                        </div> --}}
+                        <input type="text" placeholder="Location" id="eventLocation" name="eventLocation" style="display: none;" readonly />
+                        </div>
                     </div>
 
                 </div>
@@ -84,10 +85,10 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-{{!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkIJSwIxhL_0K6hzTOZeDFZmeAyiu9NDI&libraries=places,marker&callback=initMap&solution_channel=GMP_QB_addressselection_v2_cABC" async defer></script> --}}
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkIJSwIxhL_0K6hzTOZeDFZmeAyiu9NDI&libraries=places,marker&callback=initMap&solution_channel=GMP_QB_addressselection_v2_cABC" async defer></script>
 
 
-{{!-- <script src="/js/googleMaps.js" async defer></script> --}}
+<script src="/js/googleMaps.js" async defer></script>
 <script src="/js/eventInput.js"></script>
 
 

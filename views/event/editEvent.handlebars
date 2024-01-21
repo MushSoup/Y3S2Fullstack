@@ -1,70 +1,79 @@
-<form action="/event/saveEvent" method="post" id="saveEvent" >
-<div class="container">
+<form action="/event/saveEvent/{{event.eventID}}?_method=PUT" method="post" id="editEvent" enctype="multipart/form-data">
+<input type="hidden" name="_method" value="PUT">
+<div class="container" onload="{{empty}}">
  <div class="row">
     
-        <div class="col-md-11 mb-4" style="margin:auto; padding: 10px; position: relative;">
-            <div class="card" style="height: 750px;">
+        <div class="col-md-11 mb-4 center">
+            <div class="card">
                 <div class="row no-gutters">
                     {{#if event.eventImg}}
                             <div class=" image-container">
-                                <input type="file" id="eventImage" name="eventImage" accept="image/*" onchange="previewImage(event)" style="display: none;" required>
+                                <input type="file" id="eventImage" name="eventImages" accept="image/*" onchange="previewImage(event)" class="hidden-input">
                                 <img src="data:image/png;base64,{{event.eventImg}}" id="imagePreview" class="img-fluid" alt="Event Image" onclick="document.getElementById('eventImage').click();" style="cursor: pointer;">
                             </div>
                         {{/if}}
                     <div class="card-body ">
                          <div style="margin-bottom: 10px;">
                             <label for="eventName" style="display: block;">Event Name:</label>
-                            <input type="text" id="eventName" name="eventName" value="{{event.eventName}}" required><br>
+                            <input type="text" id="eventName" name="eventName" value="{{event.eventName}}"><br>
                         </div>
                         <div class="col-md-12">
                             <small class="text-muted">
                                  <div class="row">
                                     <div class="col-md-4 float-left">Organised by: You</div>
                                     <div class="col-md-4" style="text-align: center;">Event Location: {{event.eventLocation}}</div>
-                                    <div style="margin-bottom: 10px;" class="col-md-4 float-right">
-                                        <label for="eventDate" style="display: block;">Event Date:</label>
-                                        <input id="datepicker" width="200" name="eventDate" value="{{formatDate event.eventDate 'DD MMM YYYY'}}" readonly>
+                                    <div style="" class="col-md-4 float-right">
+                                        <label for="eventDate" style="">Event Date:</label>
+                                        <input id="datepicker" width="200" name="eventDate" value="{{formatDate event.eventDate 'DD/MM/YYYY'}}" readonly>
                                     </div>
                             
                                 </div>
                             </small></div><br>
-                       {{!-- {{#if event.eventImg}}
-                            <div class="image-row">
-                                {{#each event.eventImg}}
-                                   <div class=" image-container">
-                                        <img src="" class="img-fluid" alt="Event Image">
-                                    </div>
+                            <div id="imageUploadContainer" class="row" data-ride="carousel" style="">
+                            
+                        {{#if event.imageSet}}
+                          <div class="image-row" id="image-row">
+                                {{#each event.imageSet}}
+                                
+                                <div id="imageInRow{{output}}">
+                                    <input type="file" name="eventImages" accept="image/*" onchange="previewImageRow(this);" id="eventImages{{output}}" class="hidden-input">
+                                    <img src="data:image/png;base64,{{this}}" class="img-fluid img-row" alt="Event Image" onclick="document.getElementById('eventImages{{output}}').click();" style="cursor: pointer; height:250px;">
+        {{increment}}
+                                </div>
                                 {{/each}}
+                                
                             </div>
-                        {{/if}}  --}}
+                        {{/if}}
+                        </div>
+                        <div style="">
+                                    <button type="button" onclick="deleteNewImage()" id="deleteImage">Delete</button>
+                                    <button type="button" onclick="addNewImage()" id="addImage">Add</button>
+                                    </div>
                         <div style="margin-bottom: 10px;">
         <label for="eventDescription" style="display: block;">Event Description:</label>
         <textarea id="eventDescription" name="eventDescription" rows="4" cols="50" value="" required>{{event.eventDesc}}</textarea>
     </div>
                         <p>{{event.eventDesc}}</p>
+                        
                         {{!-- put google maps based on location here --}}
-
-                        {{!-- <div id="map" style="height: 400px; width: 100%;"></div>
-                        <div id="plusCode">test</div>
-                        <iframe
-                            width="600"
-                            height="450"
-                            frameborder="0" style="border:0"
-                             src="https://www.google.com/maps/embed/v1/view?key=AIzaSyAkIJSwIxhL_0K6hzTOZeDFZmeAyiu9NDI&center={{event.eventLocation}}&zoom=15"
-                             allowfullscreen>
-                        </iframe>
-                        <script>
-                            // Get the latitude and longitude from the eventLocation
-                            var eventLocation = "{{event.eventLocation}}";
-                            var latLng = eventLocation.split(',');
-
-                            // Convert latitude and longitude to plus code
-                            var plusCode = OpenLocationCode.encode(parseFloat(latLng[0]), parseFloat(latLng[1]));
-                             document.getElementById('plusCode').innerText = "Plus Code: " + plusCode;
-
-                            var iframe = document.querySelector('iframe');
-                            iframe.src = "https://www.google.com/maps/embed/v1/place?key=AIzaSyAkIJSwIxhL_0K6hzTOZeDFZmeAyiu9NDI&q="+ plusCode+"&zoom=15";
-                        </script> --}}
+                        
+                        <div class="card-container center">
+                        <div class="panel">
+                            <div>
+                            <img class="sb-title-icon" src="https://fonts.gstatic.com/s/i/googlematerialicons/location_pin/v5/24px.svg" alt="">
+                            <span class="sb-title">Address Selection</span>
+                            </div>
+                            <input type="text" placeholder="Address" id="location-input" required />
+                            <input type="text" placeholder="City" id="locality-input" required/>
+                            <div class="half-input-container">
+                            <input type="text" placeholder="Country" id="country-input"/>
+                            <input type="text" class="half-input" placeholder="Zip/Postal code" id="postal_code-input" required/>
+                            </div>
+                        </div>
+                        <div class="map" id="gmp-map"></div>
+                        <input type="text" placeholder="Location" id="eventLocation" name="eventLocation" style="display: none;" value="{{event.eventLocation}}" readonly />
+                        </div>
+                    
                     </div>
 
                 </div>
@@ -85,7 +94,8 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkIJSwIxhL_0K6hzTOZeDFZmeAyiu9NDI&libraries=places,marker&callback=initMap&solution_channel=GMP_QB_addressselection_v2_cABC" async defer></script>
 
-<script src="/js/eventInput.js"></script>
+<script src="/js/eventInput.js" async defer></script>
+<script src="/js/googleMaps.js" async defer></script>
 
 
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -93,3 +103,31 @@
 
 
 <link rel="stylesheet" href="/css/eventCard.css">
+<link rel="stylesheet" href="/css/eventMap.css">
+
+<script>
+let addressString = new String("{{event.eventLocation}}")
+    let parts = addressString.split(', ');
+let streetAddress = parts[0];
+let city = parts[1].split(' ')[0];
+let postalCode = parts[1].split(' ')[1];
+let country = parts[2];
+
+
+    document.getElementById('location-input').value = streetAddress
+    document.getElementById('locality-input').value = city
+    document.getElementById('postal_code-input').value = postalCode
+    document.getElementById('country-input').value = country
+</script>
+
+<script>
+let x = {{event.imageSet.length}} - 1
+
+                               
+
+                                    function deleteNewImage(){
+                                        var element = document.getElementById('imageInRow' + x);
+                                        element.remove();
+                                        x--;
+                                    }
+                                </script>

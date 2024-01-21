@@ -18,15 +18,15 @@
                                     <div class="col-md-4 float-right" style="text-align: right;">Event Date: {{formatDate event.eventDate 'DD MMM YYYY'}}</div>
                                 </div>
                             </small></div><br>
-                        {{!-- {{#if event.eventImg}}
+                        {{#if event.imageSet}}
                             <div class="image-row">
-                                {{#each event.eventImg}}
+                                {{#each event.imageSet}}
                                    <div class=" image-container">
-                                        <img src="" class="img-fluid" alt="Event Image">
+                                        <img src="data:image/png;base64,{{this}}" class="img-fluid" alt="Event Image">
                                     </div>
                                 {{/each}}
                             </div>
-                        {{/if}} --}}
+                        {{/if}}
                         <p>{{event.eventDesc}}</p>
                         {{!-- put google maps based on location here --}}
 
@@ -61,6 +61,17 @@
                                     </div>
                             </div>
                         </div>
+
+                        {{#if viewAttendee}}
+                            <div style="margin: 20px;">
+                                <a href="/event/viewAttendee/{{event.eventID}}" class="btn btn-dark" style="position:absolute; bottom:20px; left:50%;">View Attendees</a>
+                            </div>
+                            {{else}}
+                            <div style="margin: 20px;">
+                                <a href="/event/registerEvent/{{event.eventID}}" class="btn btn-dark" style="position: absolute; bottom: 20px; right: 10px;">Register</a>
+                            </div>
+                        {{/if}}
+
                     </div>
 
                 </div>

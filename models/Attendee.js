@@ -34,14 +34,14 @@ const Attendee = db.define('eventattendee', {
         type: Sequelize.INTEGER,
         references: {
             model: event, // Reference to the Event model
-            key: 'id' // The primary key in the Event model
+            key: 'eventID' // The primary key in the Event model
         }
     },
     userID: {
         type: Sequelize.INTEGER,
         references: {
             model: user, // Reference to the User model
-            key: 'id' // The primary key in the User model
+            key: 'userID' // The primary key in the User model
         }
     }},
     {

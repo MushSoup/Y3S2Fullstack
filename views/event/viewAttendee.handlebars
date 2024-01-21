@@ -1,0 +1,44 @@
+<style>
+    .table-bordered tr {
+        border-top: 2px solid #000;
+        border-bottom: 2px solid #000;
+    }
+</style>
+
+<div>
+    <h1 style="margin-left: 3%;">{{eventName}} Attendees</h1>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th class="text-center">NAME</th>
+                    <th class="text-center">PHONE NO.</th>
+                    <th class="text-center">AGE</th>
+                    <th class="text-center">GENDER</th>
+                    <th class="text-center">DIETARY RESTRICTIONS</th>
+                    <th class="text-center">EMERGENCY CONTACT</th>
+                    <th class="text-center">ADDITIONAL INFORMATION</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#if attendees}}
+                    {{#each attendees}}
+                        <tr>
+                            <td class="text-center">{{aName}}</td>
+                            <td class="text-center">{{aPhoneNo}}</td>
+                            <td class="text-center">{{aAge}}</td>
+                            <td class="text-center">{{genderCheck aGender}}</td>
+                            <td class="text-center">{{aDiet}}</td>
+                            <td class="text-center">{{aEmerCont}}</td>
+                            <td class="text-center">{{aExtra}}</td>
+                        </tr>
+                    {{/each}}
+                {{else}}
+                    <tr>
+                        <td colspan="7" class="text-center text-muted">No attendee registered</td>
+                    </tr>
+                {{/if}}
+            </tbody>
+        </table>
+    </div>
+</div>

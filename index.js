@@ -42,6 +42,34 @@ Handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
     return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
   });
 
+  Handlebars.registerHelper('genderCheck', function(number) {
+    if (number === 1) {
+        return 'Male';
+    } else if (number === 2) {
+        return 'Female';
+    } else {
+        return 'Other';
+    }
+});
+
+  let counter = 0;
+
+// Helper to increment a value
+Handlebars.registerHelper('increment', function() {
+  counter++;
+});
+Handlebars.registerHelper('decrement', function() {
+    counter--;
+  });
+
+// Helper to output the incremented value
+Handlebars.registerHelper('output', function() {
+  return counter;
+});
+Handlebars.registerHelper('empty', function() {
+    counter = 0;
+  });
+
 //set our apps to use the handlebars engine
 app.set('view engine','handlebars');
 
@@ -110,6 +138,10 @@ app.post("/bmiResults", function(req,res){
 
     })
 });
+
+app.use(function(req, res, next){
+    res.locals.user = req.user || null; next();
+})
 
 //Starting the server on the designated port.
 //no commands will run after this line as the server starts
