@@ -17,16 +17,27 @@ const storage = multer.memoryStorage(); // Store files in memory
 const upload = multer({ storage: storage });
 
 //Event Card Page
+//Event Card Page
 router.get('/readEvent', (req, res) => {
     Event.findAll({
         order: [
             ['eventName', 'ASC']
         ],
+        include: [{
+            model: EventImage,
+            as: 'images', // Replace 'Images' with the actual alias used in your application
+            attributes: ['image'],
+            order: [['id', 'ASC']],
+            limit: 1
+        }],
         raw: true
     }).then((event) => {
         event.forEach(event => {
             if (event.eventImg) {
                 event.eventImg = event.eventImg.toString('base64');
+            }
+            if (event.images) {
+                event.eventImg = event.images[0].image.toString('base64');
             }
         });
 
@@ -36,6 +47,8 @@ router.get('/readEvent', (req, res) => {
     })
         .catch(err => console.log(err));
 });
+
+
 
 //Create Event
 router.get('/showCreateEvent', (req, res) => {

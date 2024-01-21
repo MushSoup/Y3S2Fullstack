@@ -15,17 +15,14 @@ function previewImage(event) {
     var reader = new FileReader();
     var file = input.files[0]; //get selected file
     var img = document.getElementById('imagePreview');
-    var thumbnail = document.getElementById('thumbnail');
     if(file){
     reader.onload = function(){
-        thumbnail.src = reader.result;
         img.src = reader.result;
         img.style.display = 'block';
     };
     reader.readAsDataURL(input.files[0]);
     } else{
         img.src = "/img/uploadPlaceholder.png";
-        thumbnail.src= "/img/uploadPlaceholder.png";
     }
 }
 

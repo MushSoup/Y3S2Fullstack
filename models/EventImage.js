@@ -12,7 +12,7 @@ const EventImage = db.define('event_images', {
         type: Sequelize.INTEGER,
         references: {
             model: event, // Reference to the Event model
-            key: 'id' // The primary key in the Event model
+            key: 'eventID' // The primary key in the Event model
         }
     },
     image: {
