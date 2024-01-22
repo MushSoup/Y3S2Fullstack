@@ -15,7 +15,8 @@ const mainRoute = require('./routes/main');
 const userRoute = require('./routes/user_routes');
 const videoRoute = require('./routes/video');
 const eventRoute = require('./routes/event');
-const forumRoute = require('./routes/forum')
+const forumRoute = require('./routes/forum');
+const adminRoute = require('./routes/admin');
 const MySQLStore = require('express-mysql-session')(session);
 // Bring in Handlebars Helpers here
 const {formatDate,radioCheck} = require('./helpers/hbs'); 
@@ -37,6 +38,7 @@ app.engine('handlebars', exphbs.engine({
         radioCheck: radioCheck,
 	}
 }));
+
 
 Handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
     return (arg1 == arg2) ? options.fn(this) : options.inverse(this);

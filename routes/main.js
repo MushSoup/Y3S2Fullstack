@@ -68,6 +68,29 @@ router.get('/logout', function(req, res, next) {
     });
   });
 
+  
+router.get('/adminRegister', (req, res) => {
+    res.render('admin/adminRegister', {layout:'main'
+    });
+});
+
+router.get('/adminLogin', (req, res) => {
+    console.log("in login get")
+    res.render('admin/adminLogin', {layout:'main'
+    });
+});
+
+router.get('/adminLogout', function(req, res, next) {
+    console.log("loggin out:",res.locals.error_msg)
+   // console.log("loggin out:",res.locals.message.error)
+    //req.flash('error_msg', res.locals.error_msg);
+    req.logout(function(err) {
+      if (err) { return next(err); }
+      //req.flash('error_msg', res.locals.error_msg);
+      //res.locals.message = req.flash();
+      res.redirect('/');
+    });
+  });
 router.get('/createEvent', function(req, res) {
     res.render('event/createEvent', { layout: 'main' });
 });

@@ -1,91 +1,175 @@
 <div class="container">
- <div class="row">
-        <div class="col-md-11 mb-4" style="margin:auto; padding: 10px; position: relative;">
-            <div class="card" style="height:;">
-                <div class="row no-gutters">
-                    {{#if event.eventImg}}
-                            <div class=" image-container">
-                                <img src="data:image/png;base64,{{event.eventImg}}" class="img-fluid" alt="Event Image">
-                            </div>
-                        {{/if}}
-                    <div class="card-body ">
-                        <h2>{{event.eventName}}</h2><br>
-                        <div class="col-md-12">
-                            <small class="text-muted">
-                                 <div class="row">
-                                    <div class="col-md-4 float-left">Organised by: {{event.eventCreator}}</div>
-                                    <div class="col-md-4" style="text-align: center;">Event Location: {{event.eventLocation}}</div>
-                                    <div class="col-md-4 float-right" style="text-align: right;">Event Date: {{formatDate event.eventDate 'DD MMM YYYY'}}</div>
-                                </div>
-                            </small></div><br>
-                        {{#if event.imageSet}}
-                            <div class="image-row">
-                                {{#each event.imageSet}}
-                                   <div class=" image-container">
-                                        <img src="data:image/png;base64,{{this}}" class="img-fluid" alt="Event Image">
-                                    </div>
-                                {{/each}}
-                            </div>
-                        {{/if}}
-                        <p>{{event.eventDesc}}</p>
-                        {{!-- put google maps based on location here --}}
-
-                       <div id="map" style="">
-                        <iframe
-                            width="600"
-                            height="450"
-                            frameborder="0" style="border:0"
-                             src=""
-                             allowfullscreen>
-                        </iframe>
-                        </div>
-                        {{!-- put countdown timer based on date here --}}
-                        <div class="countdown-section">
-                        <div id="countdown" class="center"></div>
-                            <h1 id="eventStart">Event will start in</h1>
-                                <div class="countdown-timer">
-                                    <div class="black-box">
-                                        <h1 id="days">0</h1>
-                                    </div>
-
-                                    <div class="black-box">
-                                        <h1 id="hours">0</h1>
-                                    </div>
-
-                                    <div class="black-box">
-                                        <h1 id="minutes">0</h1>
-                                    </div>
-
-                                    <div class="black-box">
-                                        <h1 id="seconds">0</h1>
-                                    </div>
-                            </div>
-                        </div>
-
-                        {{#if viewAttendee}}
-                            <div style="margin: 20px;">
-                                <a href="/event/viewAttendee/{{event.eventID}}" class="btn btn-dark" style="position:absolute; bottom:20px; left:50%;">View Attendees</a>
-                            </div>
-                            {{else}}
-                            <div style="margin: 20px;">
-                                <a href="/event/registerEvent/{{event.eventID}}" class="btn btn-dark" style="position: absolute; bottom: 20px; right: 10px;">Register</a>
-                            </div>
-                        {{/if}}
-
-                    </div>
-
-                </div>
+  <div class="row">
+    <div
+      class="col-md-11 mb-4"
+      style="margin:auto; padding: 10px; position: relative;"
+    >
+      <div class="card" style="height:;">
+        <div class="row no-gutters" style="margin-bottom: 20px;">
+          {{#if event.eventImg}}
+            <div class="image-container" style="margin: 20px;">
+              <img
+                src="data:image/png;base64,{{event.eventImg}}"
+                class="img-fluid"
+                alt="Event Image"
+              />
             </div>
+          {{/if}}
+          <div class="card-body col-md-10">
+            <h2>{{event.eventName}}</h2><br />
+{{#if viewAttendee}}
+            <div style="position: absolute; top:20px; right: 20px;">
+              <a
+                href="/event/deleteEvent/{{event.eventID}}"
+                class="btn btn-dark"
+                data-toggle="confirmation"
+                style="position: relative; margin-right:30px"
+                data-title="Confirm delete?"
+              ><i class="far fa-trash-alt"></i>Delete</a>
+              <a
+                href="/event/editEvent/{{event.eventID}}"
+                class="btn btn-dark"
+                style="position: realtive; margin-right:30px"
+              >Edit</a>
+            </div>
+            {{/if}}
+            <div class="col-md-12">
+              <small class="text-muted">
+                <div class="row">
+                  <div class="col-md-4 float-left">Organised by:
+                    {{event.eventCreator}}</div>
+                  <div class="col-md-4" style="text-align: center;">Event
+                    Location:
+                    {{event.eventLocation}}</div>
+                  <div
+                    class="col-md-4 float-right"
+                    style="text-align: right;"
+                  >Event Date:
+                    {{formatDate event.eventDate "DD MMM YYYY"}}</div>
+                </div>
+              </small></div><br />
+            {{#if event.imageSet}}
+              <div class="image-slider-container">
+  <div class="image-slider">
+    {{#each event.imageSet}}
+      <div class="image-slide">
+        <img
+          src="data:image/png;base64,{{this}}"
+          class="img-fluid img-row"
+          alt="Event Image"
+          style="height:300px;"
+        />
+      </div>
+    {{/each}}
+  </div>
+  <button class="prev slider-button">❮</button>
+  <button class="next slider-button">❯</button>
+</div>
+            {{/if}}
+            <p>{{event.eventDesc}}</p>
+            {{! put google maps based on location here }}
+
+            <div id="map" style="">
+              <iframe
+                width="600"
+                height="450"
+                frameborder="0"
+                style="border:0"
+                src=""
+                allowfullscreen
+              >
+              </iframe>
+            </div>
+            {{! put countdown timer based on date here }}
+            <div class="countdown-section" style="margin: 30px;">
+              <div id="countdown" class="center"></div>
+              <h1 id="eventStart">Event will start in</h1>
+              <div class="countdown-timer">
+                <div class="black-box">
+                  <h1 id="days">0</h1>
+                </div>
+
+                <div class="black-box">
+                  <h1 id="hours">0</h1>
+                </div>
+
+                <div class="black-box">
+                  <h1 id="minutes">0</h1>
+                </div>
+
+                <div class="black-box">
+                  <h1 id="seconds">0</h1>
+                </div>
+              </div>
+            </div>
+            {{#if attendee}}
+            <div style=" margin:30px" class="center">
+              <div class="table-responsive" style="margin-bottom: 20px;">
+                <table class="table table-bordered" style="width:90%">
+                  <thead>
+                    <tr>
+                      <th class="text-center">NAME</th>
+                      <th class="text-center">PHONE NO.</th>
+                      <th class="text-center">AGE</th>
+                      <th class="text-center">GENDER</th>
+                      <th class="text-center">DIETARY RESTRICTIONS</th>
+                      <th class="text-center">EMERGENCY CONTACT</th>
+                      <th class="text-center">ADDITIONAL INFORMATION</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="text-center">{{attendee.aName}}</td>
+                      <td class="text-center">{{attendee.aPhoneNo}}</td>
+                      <td class="text-center">{{attendee.aAge}}</td>
+                      <td class="text-center">{{genderCheck attendee.aGender}}</td>
+                      <td class="text-center">{{attendee.aDiet}}</td>
+                      <td class="text-center">{{attendee.aEmerCont}}</td>
+                      <td class="text-center">{{attendee.aExtra}}</td>
+                     
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+                        </div>
+    <a href="/event/editAttendee/{{attendee.aID}}" class="btn btn-dark" style="position: absolute; bottom: 30px; right: 170px;">Edit registered info</a>
+    <a href="/event/deleteAttendee/{{attendee.aID}}" class="btn btn-dark" style="position: absolute; bottom: 30px; right: 10px;">Unregister</a>
+    </div>
+    </div>
+            {{else}}
+              {{#if viewAttendee}}
+                <div style="margin: 20px;">
+                  <a
+                    href="/event/viewAttendee/{{event.eventID}}"
+                    class="btn btn-dark"
+                    style="position:absolute; bottom:20px; left:50%;"
+                  >View Attendees</a>
+                </div>
+              {{else}}
+                <div style="margin: 20px;">
+                  <a
+                    href="/event/registerEvent/{{event.eventID}}"
+                    class="btn btn-dark"
+                    style="position: absolute; bottom: 20px; right: 10px;"
+                  >Register</a>
+                </div>
+              {{/if}}
+            {{/if}}
+
+          </div>
+
         </div>
- </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<link rel="stylesheet" href="/css/eventCard.css">
-<link rel="stylesheet" href="/css/eventDetails.css">
-<link rel="stylesheet" href="/css/eventMain.css">
+<link rel="stylesheet" href="/css/eventCard.css" />
+<link rel="stylesheet" href="/css/eventDetails.css" />
+<link rel="stylesheet" href="/css/eventMain.css" />
 
 <script>
-const encodedAddress = encodeURIComponent("{{event.eventLocation}}");
+ const encodedAddress = encodeURIComponent("{{event.eventLocation}}");
 const embedUrl = `https://www.google.com/maps/embed/v1/place?key=AIzaSyAkIJSwIxhL_0K6hzTOZeDFZmeAyiu9NDI&q=${encodedAddress}&zoom=15`;
 const iframe = document.querySelector('#map iframe');
 iframe.src = embedUrl;
@@ -118,4 +202,25 @@ iframe.src = embedUrl;
         document.getElementById("minutes").innerText = minutes;
         document.getElementById("seconds").innerText = seconds;
     } 1000});
+
+
+    $(document).ready(function(){
+  var slideIndex = 0;
+  var slides = $('.image-slide');
+  var totalSlides = slides.length;
+
+  $('.next').click(function(){
+    if (slideIndex < totalSlides - 1) {
+      slideIndex++;
+      $('.image-slider').css('transform', 'translateX(' + (-slideIndex * 100) + '%)');
+    }
+  });
+
+  $('.prev').click(function(){
+    if (slideIndex > 0) {
+      slideIndex--;
+      $('.image-slider').css('transform', 'translateX(' + (-slideIndex * 100) + '%)');
+    }
+  });
+});
 </script>

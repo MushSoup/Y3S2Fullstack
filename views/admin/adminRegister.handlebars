@@ -1,0 +1,12 @@
+<h3 class="text-center">Account Register</h3>
+<form action="/admin/adminRegister" method="post">
+    <div class="form-group">
+        <label for="adminName">Name</label>
+        <input type="text" class="form-control" name="adminName" value="{{username}}" required>
+    </div>
+    <div class="form-group">
+        <label for="adminEmail">Email</label>
+        <input type="email" name="adminEmail" class="form-control" value="{{email}}" required>
+    </div>
+    <button type="submit" class="btn-primary">Submit</button>
+</form>

@@ -2,9 +2,9 @@
 Fullstack project for Y3 semester 2
 
 ### Changes to be made
-* Make it such that after registering, can cancel (aka delete)
+* 
 * fix the image submission issue if possible
-* Allow the editing of registered information
+* 
 * forum (urgent ig?)
 * :)
 

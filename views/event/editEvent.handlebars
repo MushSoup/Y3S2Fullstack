@@ -8,7 +8,7 @@
                 <div class="row no-gutters">
                     {{#if event.eventImg}}
                             <div class=" image-container">
-                                <input type="file" id="eventImage" name="eventImages" accept="image/*" onchange="previewImage(event)" class="hidden-input">
+                                <input type="file" id="eventImage" name="eventImage" accept="image/*" onchange="previewImage(event)" class="hidden-input">
                                 <img src="data:image/png;base64,{{event.eventImg}}" id="imagePreview" class="img-fluid" alt="Event Image" onclick="document.getElementById('eventImage').click();" style="cursor: pointer;">
                             </div>
                         {{/if}}
@@ -122,12 +122,10 @@ let country = parts[2];
 
 <script>
 let x = {{event.imageSet.length}} - 1
-
-                               
-
-                                    function deleteNewImage(){
-                                        var element = document.getElementById('imageInRow' + x);
-                                        element.remove();
-                                        x--;
-                                    }
-                                </script>
+                   
+function deleteNewImage(){
+    var element = document.getElementById('imageInRow' + x);
+    element.remove();
+    x--;
+}
+</script>

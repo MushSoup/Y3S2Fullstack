@@ -4,6 +4,7 @@ const video = require('../models/Video');
 const event = require('../models/Event');
 const attendee = require('../models/Attendee');
 const EventImage = require('../models/EventImage')
+const admin = require('../models/Admin')
 
 // If drop is true, all existing tables are dropped and recreated
 const setUpDB = (drop) => {
