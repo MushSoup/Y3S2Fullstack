@@ -49,6 +49,7 @@ router.get("/readEvent", (req, res) => {
               userEvents: userEvents,
               otherEvents: otherEvents,
               registeredUser: registeredUser,
+              user: req.user ? req.user.username : null
             });
           })
           .catch((err) => console.log(err));

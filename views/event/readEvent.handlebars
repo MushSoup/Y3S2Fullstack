@@ -1,5 +1,7 @@
 <div class="container" style="padding-left:0%">
+  {{#if user}}
   <a style="position:absolute; left: 120px; top:125px" class="btn btn-dark" href="/event/showCreateEvent" >Create Events</a>
+      {{/if}}
       <input type="text" id="searchInput" oninput="searchEvents()" placeholder="Search events..." style="position: absolute; right:120px; top:125px;">
   <div class="dropdownFilter" style="position: absolute; right:370px; top: 125px;">
   <button onmouseover="showFilterDropdown()" onmouseout="hideFilterDropdown()" style="background: transparent;">
@@ -185,7 +187,9 @@ function sortByName(order) {
   otherEventsContainer.innerHTML = '';
   sortedCards.forEach(function(card) {
     otherEventsContainer.appendChild(card);
+    
   });
+  
 }
 
 function sortByDate(order) {
