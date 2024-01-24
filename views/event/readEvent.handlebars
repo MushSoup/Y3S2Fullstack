@@ -1,3 +1,4 @@
+
 <div class="container" style="padding-left:0%">
   {{#if user}}
   <a style="position:absolute; left: 120px; top:125px" class="btn btn-dark" href="/event/showCreateEvent" >Create Events</a>
@@ -17,8 +18,11 @@
   {{#if userEvents}}
     <h3 style="padding-top: 3%; text-align: center;">Your Events</h3>
     <div class="row" style="">
-      {{#each userEvents}}
-        <div
+      
+      
+      {{#each approved}}
+      
+      <div
           class="col-md-11 mb-4"
           style="margin:auto; padding: 10px; position: relative;" class="card-container"
         >
@@ -40,7 +44,137 @@
               {{/if}}
               <div class="">
                 <div class="card-body">
-                  <h3 class="card-title">{{eventName}}</h3>
+                  <h3 class="card-title">{{eventName}} (Active)</h3>
+                  <small class="text-muted">
+                    <span class="float-left" style="">Organised by:
+                      {{eventCreator}}</span>
+                  </small><br />
+                  <p class="card-text col-md-8" style="margin: 5px;">{{truncateText eventDesc 40}}</p>
+                  <div class="mt-auto event-details">
+                    <p class="card-text" style="margin-top: auto;">
+                      <small class="text-muted">
+                        <span
+                          class="float-left"
+                          style="position: absolute; bottom: 20px;"
+                        >Event Location: {{eventLocation}}</span>
+                        <span
+                          class="float-left"
+                          style="position: absolute; bottom: 20px; left: 50%;"
+                        >
+                          Event Date:
+                          {{formatDate eventDate "DD MMM YYYY"}}</span>
+                      </small>
+                    </p>
+                    <div style="position: absolute; bottom: 20px; right:15px;">
+                      <a
+                        href="/event/deleteEvent/{{eventID}}"
+                        class="btn btn-dark"
+                        data-toggle="confirmation"
+                        style="position: relative; margin-right:30px"
+                        data-title="Confirm delete?"
+                      ><i class="far fa-trash-alt"></i>Delete</a>
+                      <a
+                        href="/event/editEvent/{{eventID}}"
+                        class="btn btn-dark"
+                        style="position: realtive; margin-right:30px"
+                      >Edit</a>
+                      <a
+                        href="/event/viewAttendee/{{eventID}}"
+                        class="btn btn-dark"
+                        style="position: relative; margin-right:30px"
+                      >View Attendees</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {{/each}}
+      {{#each denied}}
+      <div
+          class="col-md-11 mb-4"
+          style="margin:auto; padding: 10px; position: relative;" class="card-container"
+        >
+          <div class="card" style="cursor: pointer;">
+            <a
+              href="/event/expandedEvent/{{eventID}}"
+              style="text-decoration:none; color:inherit;"
+              class="expand"
+            ></a>
+            <div class="row no-gutters">
+              {{#if eventImg}}
+                <div class="image-container">
+                  <img
+                    src="data:image/png;base64,{{eventImg}}"
+                    class="img-fluid"
+                    alt="Event Image"
+                  />
+                </div>
+              {{/if}}
+              <div class="">
+                <div class="card-body">
+                  <h3 class="card-title">{{eventName}} (Denied)</h3>
+                  <small class="text-muted">
+                    <span class="float-left" style="">Organised by:
+                      {{eventCreator}}</span>
+                  </small><br />
+                  <p class="card-text">{{eventDesc}}</p>
+                  <div class="mt-auto event-details">
+                    <p class="card-text" style="margin-top: auto;">
+                      <small class="text-muted">
+                        <span
+                          class="float-left"
+                          style="position: absolute; bottom: 20px;"
+                        >Event Location: {{eventLocation}}</span>
+                        <span
+                          class="float-left"
+                          style="position: absolute; bottom: 20px; left: 50%;"
+                        >
+                          Event Date:
+                          {{formatDate eventDate "DD MMM YYYY"}}</span>
+                      </small>
+                    </p>
+                    <div style="position: absolute; bottom: 20px; right:15px;">
+                      <a
+                        href="/event/deleteEvent/{{eventID}}"
+                        class="btn btn-dark"
+                        data-toggle="confirmation"
+                        style="position: relative; margin-right:30px"
+                        data-title="Confirm delete?"
+                      ><i class="far fa-trash-alt"></i>Delete</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {{/each}}
+      {{#each awaiting}}
+      <div
+          class="col-md-11 mb-4"
+          style="margin:auto; padding: 10px; position: relative;" class="card-container"
+        >
+          <div class="card" style="cursor: pointer;">
+            <a
+              href="/event/expandedEvent/{{eventID}}"
+              style="text-decoration:none; color:inherit;"
+              class="expand"
+            ></a>
+            <div class="row no-gutters">
+              {{#if eventImg}}
+                <div class="image-container">
+                  <img
+                    src="data:image/png;base64,{{eventImg}}"
+                    class="img-fluid"
+                    alt="Event Image"
+                  />
+                </div>
+              {{/if}}
+              <div class="">
+                <div class="card-body">
+                  <h3 class="card-title">{{eventName}} (Awaiting approval) </h3>
                   <small class="text-muted">
                     <span class="float-left" style="">Organised by:
                       {{eventCreator}}</span>
@@ -86,14 +220,75 @@
             </div>
           </div>
         </div>
-      {{/each}}
+        {{/each}}
+        {{#each completed}}
+      <div
+          class="col-md-11 mb-4"
+          style="margin:auto; padding: 10px; position: relative;" class="card-container"
+        >
+          <div class="card" style="cursor: pointer;">
+            <a
+              href="/event/expandedEvent/{{eventID}}"
+              style="text-decoration:none; color:inherit;"
+              class="expand"
+            ></a>
+            <div class="row no-gutters">
+              {{#if eventImg}}
+                <div class="image-container">
+                  <img
+                    src="data:image/png;base64,{{eventImg}}"
+                    class="img-fluid"
+                    alt="Event Image"
+                  />
+                </div>
+              {{/if}}
+              <div class="">
+                <div class="card-body">
+                  <h3 class="card-title">{{eventName}} (Completed)</h3>
+                  <small class="text-muted">
+                    <span class="float-left" style="">Organised by:
+                      {{eventCreator}}</span>
+                  </small><br />
+                  <p class="card-text">{{eventDesc}}</p>
+                  <div class="mt-auto event-details">
+                    <p class="card-text" style="margin-top: auto;">
+                      <small class="text-muted">
+                        <span
+                          class="float-left"
+                          style="position: absolute; bottom: 20px;"
+                        >Event Location: {{eventLocation}}</span>
+                        <span
+                          class="float-left"
+                          style="position: absolute; bottom: 20px; left: 50%;"
+                        >
+                          Event Date:
+                          {{formatDate eventDate "DD MMM YYYY"}}</span>
+                      </small>
+                    </p>
+                    <div style="position: absolute; bottom: 20px; right:15px;">
+                      <a
+                        href="/event/deleteEvent/{{eventID}}"
+                        class="btn btn-dark"
+                        data-toggle="confirmation"
+                        style="position: relative; margin-right:30px"
+                        data-title="Confirm delete?"
+                      ><i class="far fa-trash-alt"></i>Delete</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {{/each}}
+        
     </div>
   {{/if}}
 
   {{#if otherEvents}}
     <h3 style="padding-top: 3%; text-align: center;">Events</h3>
     <div class="row" style="" id="otherEvents">
-      {{#each otherEvents}}
+      {{#each ongoingOther}}
         <div
           class="col-md-11 mb-4"
           style="margin:auto; padding: 10px; position: relative;"
@@ -138,6 +333,7 @@
                       </small>
                     </p>
                     {{#if registeredUser}}
+                    <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                       <a
                         href="/event/editAttendee/{{eventID}}"
                         class="btn btn-dark"
@@ -162,6 +358,7 @@
           </div>
         </div>
       {{/each}}
+      
     </div>
   {{else}}
     <h3>No Events</h3>

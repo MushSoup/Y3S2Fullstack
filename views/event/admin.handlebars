@@ -1,12 +1,6 @@
 <style>
-    .table-bordered tr {
-        border-top: 2px solid #000;
-        border-bottom: 2px solid #000;
-    }
-        .table-bordered tr {
-        border-top: 2px solid #000;
-        border-bottom: 2px solid #000;
-    }
+
+      
 
     .tab {
   overflow: hidden;
@@ -48,7 +42,8 @@
     <h1 style="margin-left: 3%;">Events</h1>
     <div class="tab">
         <button class="tablinks" onclick="openEvent(event, 'upcoming')">Upcoming</button>
-        <button class="tablinks" onclick="openEvent(event, 'approved')">Approved</button>
+        <button class="tablinks" onclick="openEvent(event, 'approval')">Awaiting Approval</button>
+        <button class="tablinks" onclick="openEvent(event, 'denied')">Denied</button>
         <button class="tablinks" onclick="openEvent(event, 'completed')">Completed</button>
     </div>
 
@@ -72,10 +67,15 @@
                             <td class="text-center">{{eventName}}</td>
                             <td class="text-center">{{eventDate}}</td>
                             <td class="text-center">{{eventLocation}}</td>
-                            <td class="text-center">0</td>
+                            <td class="text-center">{{attendeeCount}}</td>
                             <td class="text-center">{{eventDesc}}</td>
                             <td class="text-center">{{eventCreator}}</td>
-                            <td class="text-center">approve</td>
+                            <td class="text-center">
+                                <div>
+                                    <a href="/event/unapprove/{{eventID}}" style="color: red;">Unapprove</a>
+                                </div>
+                                
+                            </td>
                         </tr>
                     {{/each}}
                 {{else}}
@@ -88,7 +88,7 @@
     </div>
     </div>
     
-    <div id="approved" class="tabcontent">
+    <div id="approval" class="tabcontent">
         <div class="table-responsive">
         <table class="table table-bordered">
             <thead>
@@ -102,16 +102,22 @@
                 </tr>
             </thead>
             <tbody>
-                {{#if approved}}
-                    {{#each approved}}
+                {{#if approval}}
+                    {{#each approval}}
                         <tr>
                             <td class="text-center">{{eventName}}</td>
                             <td class="text-center">{{eventDate}}</td>
                             <td class="text-center">{{eventLocation}}</td>
-                            <td class="text-center">0</td>
+                            <td class="text-center">{{attendeeCount}}</td>
                             <td class="text-center">{{eventDesc}}</td>
                             <td class="text-center">{{eventCreator}}</td>
-                            <td class="text-center">approve</td>
+                            <td class="text-center">
+                                <div>
+                                    <a href="/event/approve/{{eventID}}" style="color: green;">Approve</a>
+                                    <a href="/event/deny/{{eventID}}" style="color: red;">Deny</a>
+                                </div>
+                                
+                            </td>
                         </tr>
                     {{/each}}
                 {{else}}
@@ -123,6 +129,48 @@
         </table>
     </div>
     </div>
+
+<div id="denied" class="tabcontent">
+        <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th class="text-center">NAME</th>
+                    <th class="text-center">DATE</th>
+                    <th class="text-center">LOCATION</th>
+                    <th class="text-center">PARTICIPANTS</th>
+                    <th class="text-center">DESCRIPTIONS</th>
+                    <th class="text-center">EVENT CREATOR</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#if denied}}
+                    {{#each denied}}
+                        <tr>
+                            <td class="text-center">{{eventName}}</td>
+                            <td class="text-center">{{eventDate}}</td>
+                            <td class="text-center">{{eventLocation}}</td>
+                            <td class="text-center">{{attendeeCount}}</td>
+                            <td class="text-center">{{eventDesc}}</td>
+                            <td class="text-center">{{eventCreator}}</td>
+                            <td class="text-center">
+                                <div>
+                                    <a href="/event/unapprove/{{eventID}}">Restore</a>
+                                </div>
+                                
+                            </td>
+                        </tr>
+                    {{/each}}
+                {{else}}
+                    <tr>
+                        <td colspan="7" class="text-center text-muted">No attendee registered</td>
+                    </tr>
+                {{/if}}
+            </tbody>
+        </table>
+    </div>
+    </div>
+
     <div id="completed" class="tabcontent">
         <div class="table-responsive">
         <table class="table table-bordered">
@@ -143,10 +191,15 @@
                             <td class="text-center">{{eventName}}</td>
                             <td class="text-center">{{eventDate}}</td>
                             <td class="text-center">{{eventLocation}}</td>
-                            <td class="text-center">0</td>
+                            <td class="text-center">{{attendeeCount}}</td>
                             <td class="text-center">{{eventDesc}}</td>
                             <td class="text-center">{{eventCreator}}</td>
-                            <td class="text-center">approve</td>
+                            <td class="text-center" style="">
+                                <a href="/event/deleteEvent/{{eventID}}" 
+                                data-toggle="confirmation"
+                                style="position: relative; margin-right:30px; color:red;"  
+                                data-title="Confirm delete?"><i class="far fa-trash-alt"></i>Remove</a>
+                                </td>
                         </tr>
                     {{/each}}
                 {{else}}
@@ -163,7 +216,7 @@
 
 
 <script>
-    function openEvent(evt, eventDone) {
+ function openEvent(evt, eventDone) {
   // Declare all variables
   var i, tabcontent, tablinks;
 
@@ -183,3 +236,5 @@
   document.getElementById(eventDone).style.display = "block";
   evt.currentTarget.className += " active";
 }
+
+</script>

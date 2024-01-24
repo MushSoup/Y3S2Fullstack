@@ -44,6 +44,19 @@ Handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
     return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
   });
 
+  Handlebars.registerHelper('truncateText', function(text, limit) {
+    // Split the text into words
+    var words = text.split(' ');
+  
+    // If the number of words exceeds the limit, truncate the text
+    if (words.length > limit) {
+      return words.slice(0, limit).join(' ') + '...';
+    } else {
+      return text;
+    }
+  });
+  
+
   Handlebars.registerHelper('genderCheck', function(number) {
     if (number === 1) {
         return 'Male';

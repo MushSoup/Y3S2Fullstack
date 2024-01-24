@@ -1,21 +1,22 @@
 <style>
 
   .image-container {
-  width: 200px; /* Set the width of the image */
-  height: 200px; /* Set the height of the image */
-  overflow: hidden; /* Crop the image */
- margin: 25px 0px 25px 25px;
-}
+    width: 200px; /* Set the width of the image */
+    height: 200px; /* Set the height of the image */
+    overflow: hidden; /* Crop the image */
+    margin: 25px 0px 25px 25px;
+  }
 
-.image-container img {
-  width: 100%; /* Make the image fill the container */
-  height: 100%; /* Maintain aspect ratio */
-  object-fit: cover; /* Crop the image to fit */
-}
-.reg-form{
+  .image-container img {
+    width: 100%; /* Make the image fill the container */
+    height: 100%; /* Maintain aspect ratio */
+    object-fit: cover; /* Crop the image to fit */
+  }
+
+  .reg-form {
     display: flex;
-  justify-content: center;
-}
+    justify-content: center;
+  }
 
   .form-group {
     display: flex;
@@ -23,24 +24,40 @@
     align-items: center;
     margin-bottom: 1.5rem;
   }
+
   .form-group label {
+    flex: 1;
     text-align: right;
     padding-right: 1rem;
   }
-  .form-group input, .form-group select, .form-group textarea {
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    flex: 1;
     padding: 1.5rem 0.5rem 0.5rem;
     border: 0;
     border-bottom: 1px solid #ced4da;
   }
-  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
     outline: 0;
     border-bottom: 2px solid #007bff;
   }
-  .form-group input:focus + label, .form-group select:focus + label, .form-group textarea:focus + label, .form-group input:valid + label, .form-group select:valid + label, .form-group textarea:valid + label {
+
+  .form-group input:focus + label,
+  .form-group select:focus + label,
+  .form-group textarea:focus + label,
+  .form-group input:valid + label,
+  .form-group select:valid + label,
+  .form-group textarea:valid + label {
     top: -1.5rem;
     font-size: 0.6rem;
     color: #007bff;
   }
+
   #aExtra {
     border: 1px solid #ced4da;
     padding: 0.5rem;
@@ -69,42 +86,42 @@
               </small>
             </div><br>
             <div class="reg-form">
-            <form action="/event/registerEvent/{{event.eventID}}" method="post" id="addRegistration" style="">
-              <div class="form-group">
-                <label for="aName">Name</label>
-                <input type="text" id="aName" name="aName" value="{{aName}}" required>
-              </div>
-              <div class="form-group">
-                <label for="aPhoneNo">Phone Number</label>
-                <input type="tel" id="aPhoneNo" name="aPhoneNo" value="{{aPhoneNo}}" required>
-              </div>
-              <div class="form-group">
-                <label for="aAge">Age</label>
-                <input type="text" id="aAge" name="aAge" value="{{aAge}}" required>
-              </div>
-              <div class="form-group">
-                <label for="aGender">Gender</label>
-                <select id="aGender" name="aGender" value="" required>
-                  <option value="" disabled selected>Select Gender</option>
-                  <option value="1" {{#ifEquals aGender "1"}} selected{{/ifEquals}}>Male</option>
-                  <option value="2" {{#ifEquals aGender "2"}} selected{{/ifEquals}}>Female</option>
-                  <option value="3" {{#ifEquals aGender "3"}} selected{{/ifEquals}}>Other</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="aDiet">Dietary Restrictions</label>
-                <input type="text" id="aDiet" name="aDiet" >
-              </div>
-              <div class="form-group">
-                <label for="aEmerCont">Emergency Contact</label>
-                <input type="tel" id="aEmerCont" name="aEmerCont" >
-              </div>
-              <div class="form-group">
-                <label for="aExtra">Additional Information</label>
-                <textarea id="aExtra" name="aExtra" rows="4" ></textarea>
-              </div>
-              <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
+              <form action="/event/registerEvent/{{event.eventID}}" method="post" id="addRegistration" style="">
+                <div class="form-group">
+                  <label for="aName">Name</label>
+                  <input type="text" id="aName" name="aName" value="{{aName}}" required>
+                </div>
+                <div class="form-group">
+                  <label for="aPhoneNo">Phone Number</label>
+                  <input type="tel" id="aPhoneNo" name="aPhoneNo" value="{{aPhoneNo}}" required>
+                </div>
+                <div class="form-group">
+                  <label for="aAge">Age</label>
+                  <input type="text" id="aAge" name="aAge" value="{{aAge}}" required>
+                </div>
+                <div class="form-group">
+                  <label for="aGender">Gender</label>
+                  <select id="aGender" name="aGender" value="" required>
+                    <option value="" disabled selected>Select Gender</option>
+                    <option value="1" {{#ifEquals aGender "1"}} selected{{/ifEquals}}>Male</option>
+                    <option value="2" {{#ifEquals aGender "2"}} selected{{/ifEquals}}>Female</option>
+                    <option value="3" {{#ifEquals aGender "3"}} selected{{/ifEquals}}>Other</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="aDiet">Dietary Restrictions</label>
+                  <input type="text" id="aDiet" name="aDiet">
+                </div>
+                <div class="form-group">
+                  <label for="aEmerCont">Emergency Contact</label>
+                  <input type="tel" id="aEmerCont" name="aEmerCont">
+                </div>
+                <div class="form-group">
+                  <label for="aExtra">Additional Information</label>
+                  <textarea id="aExtra" name="aExtra" rows="4"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
             </div>
           </div>
         </div>

@@ -24,35 +24,37 @@ router.get("/readEvent", (req, res) => {
     raw: true,
   })
     .then((event) => {
+      const today = new Date()
+      const approved = event.filter((event) => (new Date(event.eventDate) > today) && event.approval == 1 && (event.eventCreator === req.user.username));
+        const completed = event.filter((event) => (new Date(event.eventDate) <= today) && (event.eventCreator === req.user.username));
+        const denied = event.filter((event) => (new Date(event.eventDate) > today) && event.approval == 0 && (event.eventCreator === req.user.username));
+        const awaiting = event.filter((event) => (new Date(event.eventDate) > today) && event.approval == null && (event.eventCreator === req.user.username));
+        // console.log(approved);
+        console.log(denied);
+        // console.log(awaiting + "1");
       if (req.user) {
-        const userEvents = event.filter(
-          (event) => event.eventCreator === req.user.username
-        );
-        const otherEvents = event.filter(
-          (event) =>
-            event.eventCreator !== req.user.username || !event.eventCreator
-        );
+        const userEvents = event.filter((event) => event.eventCreator === req.user.username);
+        const otherEvents = event.filter((event) => event.eventCreator !== req.user.username || !event.eventCreator);
+        const ongoingOther = event.filter((event) => (new Date(event.eventDate) > today) && (event.eventCreator !== req.user.username) && event.approval == 1);
+       
         event.forEach((event) => {
           if (event.eventImg) {
             event.eventImg = event.eventImg.toString("base64");
           }
         });
-        Attendee.findOne({
-          where: req.params.eventID,
-          where: req.user.userID,
-        })
-          .then((attendee) => {
-            const registeredUser = attendee ? attendee : null;
+        
 
             res.render("event/readEvent", {
               event: event,
               userEvents: userEvents,
               otherEvents: otherEvents,
-              registeredUser: registeredUser,
-              user: req.user ? req.user.username : null
+              approved: approved,
+              completed: completed,
+              denied: denied,
+              awaiting: awaiting,
+              ongoingOther: ongoingOther,
+              user: req.user ? req.user.username : null,
             });
-          })
-          .catch((err) => console.log(err));
       } else {
         const otherEvents = event;
         event.forEach((event) => {
@@ -169,6 +171,25 @@ router.post("/registerEvent/:eventID", (req, res) => {
   let aExtra = req.body.aExtra;
   let eventID = req.params.eventID;
   let userID = req.user ? req.user.userID : null;
+  
+Event.findOne({
+  where:
+  {
+    eventID
+  }
+}).then((event) =>{
+  Event.update({
+    attendeeCount: event.attendeeCount +=1
+  },
+  {
+    where:
+    {
+      eventID:eventID
+    }
+  }
+  ).then(() =>{
+
+  
 
   if (req.user) {
     Attendee.create({
@@ -202,6 +223,8 @@ router.post("/registerEvent/:eventID", (req, res) => {
       })
       .catch((err) => console.log(err));
   }
+})
+})
 });
 
 router.get("/expandedEvent/:eventID", (req, res) => {
@@ -355,7 +378,7 @@ router.put(
   }
 );
 
-router.get("/deleteEvent/:eventID", ensureAuthenticated, (req, res) => {
+router.get("/deleteEvent/:eventID", (req, res) => {
   Event.findOne({
     where: {
       eventID: req.params.eventID,
@@ -363,7 +386,7 @@ router.get("/deleteEvent/:eventID", ensureAuthenticated, (req, res) => {
   })
     .then((event) => {
       let eventName = event.eventName;
-      if (req.user.username === event.eventCreator) {
+      
         EventImage.destroy({
           where: {
             eventId: req.params.eventID,
@@ -380,16 +403,16 @@ router.get("/deleteEvent/:eventID", ensureAuthenticated, (req, res) => {
               },
             }).then(() => {
               console.log("Event Deleted!");
-              res.redirect("/event/readEvent");
+              if (req.user.role === 1) {
+                res.redirect("/event/admin")
+              } else {
+                res.redirect("/event/readEvent");
+              }
+              
             });
           });
         });
-      } else {
-        console.log("Unauthorised");
-        req.flash("error", "Unauthorised access to event");
-        res.locals.message = req.flash();
-        res.redirect("/logout");
-      }
+      
     })
     .catch((err) => console.log(err));
 });
@@ -533,19 +556,90 @@ router.get("/editAttendee/:aID", ensureAuthenticated, (req, res) => {
       raw: true,
     }).then((event) =>{
       const today = new Date();
-      const upcoming = event.filter((event) => new Date(event.eventDate) > today);
-      const completed = event.filter((event) => new Date(event.eventDate) <= today);
-      const approved = event.filter((event) => event.adminID === req.user.id || !event.eventDate);
+      const upcoming = event.filter((event) => (new Date(event.eventDate) > today) && event.approval == 1);
+      const completed = event.filter((event) => (new Date(event.eventDate) <= today));
+      const denied = event.filter((event) => (new Date(event.eventDate) > today) && event.approval == 0)
+      const approval = event.filter((event) => (new Date(event.eventDate) > today) && event.approval == null);
 
       res.render("event/admin", {
         event: event,
         upcoming: upcoming,
         completed: completed,
-        approved: approved,
+        approval: approval,
+        denied: denied
       });
         
       
     })
   })
+
+  router.get("/approve/:eventID", (req, res) =>{
+      let approval = 1;
+      Event.findOne({
+        where:{
+          eventID: req.params.eventID
+        }
+      }).then((event) =>{
+      
+
+      Event.update({
+        approval: approval
+      },
+      {
+        where:{
+          eventID: req.params.eventID
+        }
+      }).then((event) =>{
+        res.redirect("/event/admin")
+      }).catch((err)=> console.log(err))
+  
+      })
+  })
+
+  router.get("/deny/:eventID", (req, res) =>{
+    let approval = 0;
+    Event.findOne({
+      where:{
+        eventID: req.params.eventID
+      }
+    }).then((event) =>{
+    
+
+    Event.update({
+      approval: approval
+    },
+    {
+      where:{
+        eventID: req.params.eventID
+      }
+    }).then((event) =>{
+      res.redirect("/event/admin")
+    }).catch((err)=> console.log(err))
+
+    })
+  })
+
+router.get("/unapprove/:eventID", (req,res) =>{
+  let approval = null;
+      Event.findOne({
+        where:{
+          eventID: req.params.eventID
+        }
+      }).then((event) =>{
+      
+
+      Event.update({
+        approval: approval
+      },
+      {
+        where:{
+          eventID: req.params.eventID
+        }
+      }).then((event) =>{
+        res.redirect("/event/admin")
+      }).catch((err)=> console.log(err))
+  
+      })
+})
 
 module.exports = router;

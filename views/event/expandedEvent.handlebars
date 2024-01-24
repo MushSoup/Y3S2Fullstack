@@ -1,3 +1,6 @@
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v19.0" nonce="q64J3FvG"></script>
+
 <div class="container">
   <div class="row">
     <div
@@ -19,6 +22,8 @@
             <h2>{{event.eventName}}</h2><br />
 {{#if viewAttendee}}
             <div style="position: absolute; top:20px; right: 20px;">
+              <a style="margin:20px" href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large" data-text="Hey!, check out this sustainable volunteer event!" data-hashtags="TechCycle" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                      <div style="margin: 20px;" class="fb-share-button" data-href="http://localhost:3001/event/readEvent" data-layout="" data-size=""><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A3001%2Fevent%2FreadEvent&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
               <a
                 href="/event/deleteEvent/{{event.eventID}}"
                 class="btn btn-dark"
