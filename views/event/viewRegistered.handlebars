@@ -1,0 +1,155 @@
+
+<div class="container" style="padding-left:0%">
+      <input type="text" id="searchInput" oninput="searchEvents()" placeholder="Search events..." style="position: absolute; right:120px; top:125px;">
+  <div class="dropdownFilter" style="position: absolute; right:370px; top: 125px;">
+  <button onmouseover="showFilterDropdown()" onmouseout="hideFilterDropdown()" style="background: transparent;">
+    <img src="/img/filter.png" alt="Sort" style="width: 25px; height:25px;"/>
+  </button>
+  <div class="dropdownFilter-content" onmouseover="showFilterDropdown()" onmouseout="hideFilterDropdown()">
+    <a href="#" onclick="sortByName('asc')">Sort by Name (Asc)</a>
+    <a href="#" onclick="sortByName('desc')">Sort by Name (Desc)</a>
+    <a href="#" onclick="sortByDate('asc')">Sort by Date (Asc)</a>
+    <a href="#" onclick="sortByDate('desc')">Sort by Date (Desc)</a>
+  </div>
+</div>
+
+  {{#if otherEvents}}
+    <h3 style="padding-top: 3%; text-align: center;">Events</h3>
+    <div class="row" style="" id="otherEvents">
+      {{#each ongoingOther}}
+        <div
+          class="col-md-11 mb-4"
+          style="margin:auto; padding: 10px; position: relative;"
+          id=""
+        >
+          <div class="card" style="cursor: pointer;">
+            <a
+              href="/event/expandedEvent/{{eventID}}"
+              style="text-decoration:none; color:inherit;"
+              class="expand"
+            ></a>
+            <div class="row no-gutters">
+              {{#if eventImg}}
+                <div class="image-container">
+                  <img
+                    src="data:image/png;base64,{{eventImg}}"
+                    class="img-fluid"
+                    alt="Event Image"
+                  />
+                </div>
+              {{/if}}
+              <div class="">
+                <div class="card-body">
+                  <h3 class="card-title">{{eventName}}</h3>
+                  <small class="text-muted">
+                    <span class="float-left" style="">Organised by:
+                      {{eventCreator}}</span>
+                  </small><br />
+                  <p class="card-text">{{truncateText eventDesc 40}}</p>
+                  <div class="mt-auto event-details">
+                    <p class="card-text" style="margin-top: auto;">
+                      <small class="text-muted">
+                        <span
+                          class="float-left"
+                          style="position: absolute; bottom: 20px;"
+                        >Event Location: {{eventLocation}}</span>
+                        <span
+                          class="float-left event-date"
+                          style="position: absolute; bottom: 20px; left: 50%;"
+                        >Event Date:
+                          {{formatDate eventDate "DD MMM YYYY"}}</span>
+                      </small>
+                    </p>
+                      
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {{/each}}
+      
+    </div>
+  {{else}}
+    <h3>No Events</h3>
+  {{/if}}
+</div>
+
+<script>
+function sortByName(order) {
+  var eventCards = document.querySelectorAll('#otherEvents .col-md-11.mb-4');
+  var sortedCards = Array.from(eventCards);
+
+  sortedCards.sort(function(a, b) {
+    var nameA = a.getElementsByClassName('card-title')[0].innerText.toUpperCase();
+    var nameB = b.getElementsByClassName('card-title')[0].innerText.toUpperCase();
+    if (order === 'asc') {
+      return nameA.localeCompare(nameB);
+    } else {
+      return nameB.localeCompare(nameA);
+    }
+  });
+
+  var otherEventsContainer = document.getElementById('otherEvents');
+  otherEventsContainer.innerHTML = '';
+  sortedCards.forEach(function(card) {
+    otherEventsContainer.appendChild(card);
+    
+  });
+  
+}
+
+function sortByDate(order) {
+  var eventCards = document.querySelectorAll('#otherEvents .col-md-11.mb-4');
+  var sortedCards = Array.from(eventCards);
+
+  sortedCards.sort(function(a, b) {
+    var dateA = new Date(a.querySelector('.event-date').innerText);
+    var dateB = new Date(b.querySelector('.event-date').innerText);
+    if (order === 'asc') {
+      return dateA - dateB;
+    } else {
+      return dateB - dateA;
+    }
+  });
+
+  var otherEventsContainer = document.getElementById('otherEvents');
+  otherEventsContainer.innerHTML = '';
+  sortedCards.forEach(function(card) {
+    otherEventsContainer.appendChild(card);
+  });
+}
+
+  function searchEvents() {
+  // Get the search query from the input field
+  var searchQuery = document.getElementById('searchInput').value.toLowerCase();
+
+  // Get all the event cards
+  var eventCards = document.getElementsByClassName('card');
+
+  // Loop through each event card and check if it contains the search query
+  for (var i = 0; i < eventCards.length; i++) {
+    var eventName = eventCards[i].getElementsByClassName('card-title')[0].innerText.toLowerCase();
+    var eventDesc = eventCards[i].getElementsByClassName('card-text')[0].innerText.toLowerCase();
+
+    // If the event card contains the search query, display it, otherwise hide it
+    if (eventName.includes(searchQuery) || eventDesc.includes(searchQuery)) {
+      eventCards[i].style.display = 'block';
+    } else {
+      eventCards[i].style.display = 'none';
+    }
+  }
+}
+
+function showFilterDropdown() {
+  document.querySelector('.dropdownFilter-content').style.display = 'block';
+}
+
+function hideFilterDropdown() {
+  document.querySelector('.dropdownFilter-content').style.display = 'none';
+}
+
+</script>
+
+<link rel="stylesheet" href="/css/eventCard.css" />

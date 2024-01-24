@@ -2,6 +2,7 @@
 <div class="container" style="padding-left:0%">
   {{#if user}}
   <a style="position:absolute; left: 120px; top:125px" class="btn btn-dark" href="/event/showCreateEvent" >Create Events</a>
+  <a style="position:absolute; left: 300px; top:125px" class="btn btn-dark" href="/event/viewRegistered" >View Registered Events</a>
       {{/if}}
       <input type="text" id="searchInput" oninput="searchEvents()" placeholder="Search events..." style="position: absolute; right:120px; top:125px;">
   <div class="dropdownFilter" style="position: absolute; right:370px; top: 125px;">
@@ -119,7 +120,7 @@
                     <span class="float-left" style="">Organised by:
                       {{eventCreator}}</span>
                   </small><br />
-                  <p class="card-text">{{eventDesc}}</p>
+                  <p class="card-text">{{truncateText eventDesc 40}}</p>
                   <div class="mt-auto event-details">
                     <p class="card-text" style="margin-top: auto;">
                       <small class="text-muted">
@@ -179,7 +180,7 @@
                     <span class="float-left" style="">Organised by:
                       {{eventCreator}}</span>
                   </small><br />
-                  <p class="card-text">{{eventDesc}}</p>
+                  <p class="card-text">{{truncateText eventDesc 40}}</p>
                   <div class="mt-auto event-details">
                     <p class="card-text" style="margin-top: auto;">
                       <small class="text-muted">
@@ -249,7 +250,7 @@
                     <span class="float-left" style="">Organised by:
                       {{eventCreator}}</span>
                   </small><br />
-                  <p class="card-text">{{eventDesc}}</p>
+                  <p class="card-text">{{truncateText eventDesc 40}}</p>
                   <div class="mt-auto event-details">
                     <p class="card-text" style="margin-top: auto;">
                       <small class="text-muted">
@@ -317,7 +318,7 @@
                     <span class="float-left" style="">Organised by:
                       {{eventCreator}}</span>
                   </small><br />
-                  <p class="card-text">{{eventDesc}}</p>
+                  <p class="card-text">{{truncateText eventDesc 40}}</p>
                   <div class="mt-auto event-details">
                     <p class="card-text" style="margin-top: auto;">
                       <small class="text-muted">

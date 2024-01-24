@@ -527,7 +527,6 @@ router.get("/editAttendee/:aID", ensureAuthenticated, (req, res) => {
       },
     })
       .then((attendee) => {
-        let aName = attendee.aName;
         if (req.user.userID === attendee.userID) {
          
             Attendee.destroy({
@@ -640,6 +639,41 @@ router.get("/unapprove/:eventID", (req,res) =>{
       }).catch((err)=> console.log(err))
   
       })
+})
+
+router.get("/viewRegistered", ensureAuthenticated, (req, res)=> {
+  if (req.user) {
+    Attendee.findAll({
+    where:{
+      userID: req.user.userID
+    }
+  }).then((attendee) =>{
+    const eventIDs = attendee.map((attendee) => attendee.eventID);
+    Event.findAll({
+      order: [["eventName", "ASC"]],
+    raw: true,
+      where:{
+        eventID: eventIDs
+      }
+    }).then((event) =>{
+      const today = new Date()
+      const ongoingOther = event.filter((event) => (new Date(event.eventDate) > today) && (event.eventCreator !== req.user.username) && event.approval == 1);
+      const otherEvents = event.filter((event) => event.eventCreator !== req.user.username || !event.eventCreator);
+      event.forEach((event) => {
+        if (event.eventImg) {
+          event.eventImg = event.eventImg.toString("base64");
+        }
+      });
+      
+      res.render("event/viewRegistered", {
+        event:event,
+        ongoingOther:ongoingOther,
+        otherEvents:otherEvents
+      })
+    })
+  }).catch((err)=> console.log(err))
+  }
+  
 })
 
 module.exports = router;
