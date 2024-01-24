@@ -5,8 +5,8 @@
     }
 
 .image-container {
-    width: 200px; /* Set the width of the image */
-    height: 200px; /* Set the height of the image */
+    width: 125px; /* Set the width of the image */
+    height: 125px; /* Set the height of the image */
     overflow: hidden; /* Crop the image */
    margin: 25px 0px 25px 25px;
   }

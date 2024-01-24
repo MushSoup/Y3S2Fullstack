@@ -527,4 +527,25 @@ router.get("/editAttendee/:aID", ensureAuthenticated, (req, res) => {
       .catch((err) => console.log(err));
   });
 
+  router.get("/admin", ensureAuthenticated, (req, res)=> {
+    Event.findAll({
+      order:[["eventName", "ASC"]],
+      raw: true,
+    }).then((event) =>{
+      const today = new Date();
+      const upcoming = event.filter((event) => new Date(event.eventDate) > today);
+      const completed = event.filter((event) => new Date(event.eventDate) <= today);
+      const approved = event.filter((event) => event.adminID === req.user.id || !event.eventDate);
+
+      res.render("event/admin", {
+        event: event,
+        upcoming: upcoming,
+        completed: completed,
+        approved: approved,
+      });
+        
+      
+    })
+  })
+
 module.exports = router;

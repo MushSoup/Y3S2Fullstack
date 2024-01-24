@@ -72,10 +72,18 @@ router.post('/register', (req, res) =>
 
 router.post('/login',(req,res,next)=>{
     passport.authenticate('local',{
-        successRedirect:'/event/readEvent',
+        
+        successRedirect:false,
         failureRedirect:'/login',
         failureFlash:true,
-    })(req,res,next)
+    })(req,res, (err)=>{
+        if (req.user.role == 1) {
+            return res.redirect('/event/admin')
+        } else{
+            return res.redirect('/event/readEvent')
+        }
+    }) 
+
 });
 
 /*

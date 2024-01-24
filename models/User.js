@@ -36,6 +36,9 @@ const User = db.define('users', {
     },
     cardNo: {
         type: Sequelize.INTEGER
+    },
+    role:{
+        type: Sequelize.INTEGER
     }
 });
 
